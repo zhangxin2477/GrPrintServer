@@ -1,0 +1,15 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="true" android:state_window_focused="false" android:state_enabled="true"
+        android:drawable="@mipmap/btn_check_on" />
+    <item android:state_checked="false" android:state_window_focused="false" android:state_enabled="true"
+        android:drawable="@mipmap/btn_check_off" />
+
+    <item android:state_checked="false" android:state_enabled="true"
+        android:drawable="@mipmap/btn_check_off" />
+    <item android:state_checked="true" android:state_enabled="true"
+        android:drawable="@mipmap/btn_check_on">
+    </item>
+
+
+</selector>
