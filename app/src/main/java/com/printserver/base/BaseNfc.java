@@ -23,16 +23,15 @@ public class BaseNfc  {
             (byte) 0xff, (byte) 0xff, (byte) 0xff };
 
     public static String ScanNfc(Context context,Intent intent){
-        boolean auth = false;
-        String cardHeadStr ="";
+        boolean auth;
         Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        cardHeadStr ="ID："+ BaseHelp.bytesToHexString(tag.getId());
+        String cardHeadStr ="ID："+ BaseHelp.bytesToHexString(tag.getId());
         String[] techList = tag.getTechList();
         boolean isMifareClassic = false;
         cardHeadStr +="\r\nTECH：";
         for (String tech : techList) {
             cardHeadStr +=tech+",";
-            if (tech.indexOf("MifareClassic") >= 0) {
+            if (tech.contains("MifareClassic")) {
                 isMifareClassic = true;
                 break;
             }
