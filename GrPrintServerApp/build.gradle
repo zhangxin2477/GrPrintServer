@@ -26,6 +26,7 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:23.0.1'
+    compile project(':MaterialDesign')
     compile files('libs/ksoap-2.4.0.jar')
     compile files('libs/core-3.1.0.jar')
     compile files('libs/jna-platform-4.1.0.jar')
