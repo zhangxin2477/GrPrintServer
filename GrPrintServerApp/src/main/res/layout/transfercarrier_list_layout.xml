@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/head_include"
+        layout="@layout/tc_title_layout"/>
+
+    <FrameLayout
+        android:id="@+id/pagerContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/head_include"
+        android:background="#BFEFFF" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/background">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="45dp"
+                android:id="@+id/linearLayout_top">
+                <TableRow
+                    android:background="@drawable/boeder_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        android:text="序号"
+                        android:id="@+id/headtracarlist_id"
+                        android:textSize="30sp"
+                        android:gravity="center" />
+
+                    <View android:layout_width="1dip"
+                        android:layout_height="fill_parent"
+                        android:background="#FFFFFF" />
+
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="match_parent"
+                        android:text="生成时间"
+                        android:id="@+id/headtracarlist_time"
+                        android:textSize="30sp"
+                        android:gravity="center" />
+
+                    <View android:layout_width="1dip"
+                        android:layout_height="fill_parent"
+                        android:background="#FFFFFF" />
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:text="责任人"
+                        android:id="@+id/headtracarlist_responsible"
+                        android:textSize="30sp"
+                        android:gravity="center" />
+
+                    <View android:layout_width="1dip"
+                        android:layout_height="fill_parent"
+                        android:background="#FFFFFF" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="载体名称"
+                        android:id="@+id/headtracarlist_carriername"
+                        android:textSize="30sp"
+                        android:gravity="center"/>
+                </TableRow>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/linearLayout_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="接收人："
+                    android:gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/textView2" />
+
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:id="@+id/tracar_receiver" />
+
+                <Button
+                    android:background="@drawable/btn_button_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:height="50dp"
+                    android:width="100dp"
+                    android:text="确认"
+                    android:id="@+id/tc_ok" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/linearLayout_top"
+                android:layout_above="@+id/linearLayout_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/boeder_style">
+                <ListView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/listView_TransferCarrier" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+
+</RelativeLayout>

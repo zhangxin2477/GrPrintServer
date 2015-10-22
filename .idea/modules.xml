@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GrPrintServer.iml" filepath="$PROJECT_DIR$/GrPrintServer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GrPrintServerApp/GrPrintServerApp.iml" filepath="$PROJECT_DIR$/GrPrintServerApp/GrPrintServerApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MaterialDesign/MaterialDesign.iml" filepath="$PROJECT_DIR$/MaterialDesign/MaterialDesign.iml" />
     </modules>
   </component>
 </project>
