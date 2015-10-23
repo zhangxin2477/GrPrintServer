@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class ButtonFlat extends Button {
 	
-	TextView textButton;
+	public TextView textButton;
 
 	public ButtonFlat(Context context, AttributeSet attrs) {
 		super(context, attrs);

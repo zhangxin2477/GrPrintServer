@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#55000000"
-    android:padding="32dp" >
+    android:padding="50dp" >
 
     <RelativeLayout
         android:id="@+id/contentDialog"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/dialog_background"
@@ -59,14 +59,14 @@
                 android:id="@+id/button_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
+                android:text="取消"
                 android:textColor="#000" />
 
             <com.gc.materialdesign.views.ButtonFlat
                 android:id="@+id/button_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Accept"
+                android:text="确定"
                 android:textColor="#1E88E5" />
         </LinearLayout>
     </RelativeLayout>

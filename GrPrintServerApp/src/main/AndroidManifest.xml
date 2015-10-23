@@ -49,7 +49,7 @@
         <!--</activity>-->
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/MyMetro"
+
             android:screenOrientation="landscape" >
         </activity>
         <activity

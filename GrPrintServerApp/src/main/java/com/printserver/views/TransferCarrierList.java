@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.nfc.tech.MifareClassic;
 import android.nfc.tech.NfcA;
@@ -16,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.printserver.base.BaseHelp;
 import com.printserver.base.BaseNfc;
 import com.printserver.base.BaseParameters;
@@ -29,7 +32,7 @@ public class TransferCarrierList extends Activity implements View.OnClickListene
 
     private String carrierID;
     private EditText cardID;
-    private ImageView back;
+    private ButtonFlat back;
     private ListView listView;
 
     private NfcAdapter nfcAdapter;
@@ -41,21 +44,18 @@ public class TransferCarrierList extends Activity implements View.OnClickListene
 
     private ParameterApplication parameterApplication;
     private String carrierIDs;
-    private View view_main;
 
     public void onCreate(Bundle bundle){
         super.onCreate(bundle);
-        view_main=getLayoutInflater().from(this).inflate(R.layout.transfercarrier_list_layout,null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        //view_main.setOnClickListener(this);
-        setContentView(view_main);
+        setContentView(R.layout.transfercarrier_list_layout);
 
         cardID =(EditText)findViewById(R.id.tracar_receiver);
-        back=(ImageView)findViewById(R.id.tc_back);
+        back=(ButtonFlat)findViewById(R.id.tc_back);
+        back.textButton.setTextColor(Color.parseColor("#FFFFFF"));
         back.setOnClickListener(this);
-        Button bt=(Button)findViewById(R.id.tc_ok);
+        ButtonRectangle bt=(ButtonRectangle)findViewById(R.id.tc_ok);
         bt.setOnClickListener(this);
 
         Intent intent=this.getIntent();
@@ -65,7 +65,6 @@ public class TransferCarrierList extends Activity implements View.OnClickListene
         parameterApplication=(ParameterApplication)getApplication();
 
         initNfc();
-        //new Thread(runnable).start();
         Intent intentLoading=new Intent();
         intentLoading.setClass(this,LoadingActivity.class);
         intentLoading.putExtra(LOADINGTYPE, TRANSFERCARRIER);
@@ -126,7 +125,6 @@ public class TransferCarrierList extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         switch (view.getId()){
             case  R.id.tc_back:
                 finish();
@@ -139,9 +137,6 @@ public class TransferCarrierList extends Activity implements View.OnClickListene
                     intent.setClass(TransferCarrierList.this,LoadingActivity.class);
                     intent.putExtra("","");
                     startActivityForResult(intent,0);
-                    //String tc_result=Service_Carrier.GetTransferCarrierResult(parameterApplication, cardID.getText().toString(), carrierIDs);
-                    //bundle.putString("tc_result", Service_Carrier.GetTransferCarrierResult(parameterApplication,cardID.getText().toString(),carrierIDs));
-                    //Toast.makeText(TransferCarrierList.this, tc_result, Toast.LENGTH_LONG).show();
                 }
                 break;
         }
@@ -160,50 +155,4 @@ public class TransferCarrierList extends Activity implements View.OnClickListene
             }
         }
     }
-
-//    private Runnable runnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            Message msg = new Message();
-//            Bundle bundle = new Bundle();
-//            bundle.putString("carrier", Service_Carrier.GetCarrierString(parameterApplication,carrierID,"1"));
-//            msg.setData(bundle);
-//            handler.sendMessage(msg);
-//        }
-//    };
-//
-//    private Handler handler = new Handler() {
-//        public void handleMessage(Message msg) {
-//            Bundle bundle = msg.getData();
-//            String result = bundle.getString("carrier");
-//            if (!result.equals("")) {
-//                carrierIDs = Service_Carrier.GetCarrierIDs(result);
-//                carrierIDs = carrierIDs.substring(0, carrierIDs.length() - 1);
-//                Toast.makeText(TransferCarrierList.this, carrierIDs, Toast.LENGTH_LONG).show();
-//                listView.setAdapter(new TransferCarrierAdapter(TransferCarrierList.this, Service_Carrier.getCarrierMaps(result)));
-//            }
-//        }
-//    };
-//
-//    private Runnable runnable2=new Runnable() {
-//        @Override
-//        public void run() {
-//            //Message msg=new Message();
-//            //Bundle bundle=new Bundle();
-//            String tc_result=Service_Carrier.GetTransferCarrierResult(parameterApplication, cardID.getText().toString(), carrierIDs);
-//            //bundle.putString("tc_result", Service_Carrier.GetTransferCarrierResult(parameterApplication,cardID.getText().toString(),carrierIDs));
-//            Toast.makeText(TransferCarrierList.this, tc_result, Toast.LENGTH_LONG).show();
-//            //BaseHelp.ShowDialog(TransferCarrierList.this, tc_result, 1);
-//            //msg.setData(bundle);
-//            //handler2.handleMessage(msg);
-//        }
-//    };
-//
-//    private Handler handler2=new Handler(){
-//        public void handleMessage(Message msg){
-//            Bundle bundle = msg.getData();
-//            String tc_result = bundle.getString("tc_result");
-//            BaseHelp.ShowDialog(TransferCarrierList.this,tc_result,1);
-//        }
-//    };
 }

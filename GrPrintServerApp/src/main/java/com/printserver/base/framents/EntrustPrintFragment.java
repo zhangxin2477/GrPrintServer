@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.printserver.base.BaseHelp;
 import com.printserver.base.BaseFragment;
 import com.printserver.views.HomeActivity;
@@ -29,7 +30,7 @@ public class EntrustPrintFragment extends BaseFragment implements View.OnClickLi
     protected View initView(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.entrustprint_layout, null);
         listView=(ListView)view.findViewById(R.id.listView_EntrustPrint);
-        Button button=(Button)view.findViewById(R.id.entrustPrint_bt_ok);
+        ButtonRectangle button=(ButtonRectangle)view.findViewById(R.id.entrustPrint_bt_ok);
         button.setOnClickListener(this);
         CheckBox checkBox=(CheckBox)view.findViewById(R.id.headentpri_choice);
         checkBox.setOnCheckedChangeListener(this);

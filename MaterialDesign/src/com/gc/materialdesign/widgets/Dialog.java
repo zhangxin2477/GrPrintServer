@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -24,6 +25,7 @@ public class Dialog extends android.app.Dialog{
 	TextView messageTextView;
 	String title;
 	TextView titleTextView;
+	int type;
 	
 	ButtonFlat buttonAccept;
 	ButtonFlat buttonCancel;
@@ -32,16 +34,18 @@ public class Dialog extends android.app.Dialog{
 	View.OnClickListener onCancelButtonClickListener;
 	
 
-	public Dialog(Context context,String title, String message) {
+	public Dialog(Context context,String title, String message, int type) {
 		super(context, android.R.style.Theme_Translucent);
 		this.context = context;// init Context
 		this.message = message;
 		this.title = title;
+		this.type = type;
 	}
 	
 	@Override
 	  protected void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.dialog);
 	    
@@ -86,6 +90,9 @@ public class Dialog extends android.app.Dialog{
 			    	onCancelButtonClickListener.onClick(v);
 			}
 		});
+		if (type == 1){
+			buttonCancel.setVisibility(View.GONE);
+		}
 	}
 	
 	@Override

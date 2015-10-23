@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#BFEFFF"
@@ -12,16 +13,14 @@
         android:id="@+id/head_layout"
         android:background="@color/background_color" >
 
-        <ImageView
+        <com.gc.materialdesign.views.ButtonFlat
             android:id="@+id/init_setup_back"
-            android:background="@drawable/btn_imagebtn_style"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_alignParentLeft="true"
+            android:text="《返回"
             android:gravity="center"
-            android:src="@mipmap/back"
-            android:layout_marginLeft="10dp"
             android:scaleType="fitCenter" />
 
     </RelativeLayout>
@@ -235,24 +234,20 @@
                 android:gravity="center"
                 android:layout_weight="1">
 
-                <Button
-                    android:background="@drawable/btn_button_style"
+                <com.gc.materialdesign.views.ButtonRectangle
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="测试"
                     android:id="@+id/setup_test"
                     android:layout_marginRight="15dp"
-                    android:textSize="25sp"
                     android:width="80dp"
                     android:height="35dp" />
 
-                <Button
-                    android:background="@drawable/btn_button_style"
+                <com.gc.materialdesign.views.ButtonRectangle
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="确定"
                     android:id="@+id/setup_ok"
-                    android:textSize="25sp"
                     android:width="80dp"
                     android:height="35dp" />
             </LinearLayout>

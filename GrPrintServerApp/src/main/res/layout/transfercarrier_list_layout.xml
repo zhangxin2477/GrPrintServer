@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <include
@@ -95,12 +96,9 @@
                     android:layout_marginRight="20dp"
                     android:id="@+id/tracar_receiver" />
 
-                <Button
-                    android:background="@drawable/btn_button_style"
-                    android:layout_width="wrap_content"
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:layout_width="120dp"
                     android:layout_height="match_parent"
-                    android:height="50dp"
-                    android:width="100dp"
                     android:text="确认"
                     android:id="@+id/tc_ok" />
             </LinearLayout>

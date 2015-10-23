@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.widgets.Dialog;
 import com.printserver.views.HomeActivity;
 import com.printserver.views.LoginActivity;
 
@@ -61,41 +63,51 @@ public class BaseHelp {
     private static String namespace = "http://tempuri.org/";
 
     public static void ShowDialog(final Context v,String title,int type){
-        AlertDialog.Builder builder = new AlertDialog.Builder(v);
-        if (type==0) {
-            builder.setTitle("提示").setMessage(title)
-                    .setCancelable(false)
-                    .setPositiveButton("确定",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int id) {
-                                    System.exit(0);
-                                }
-                            })
-                    .setNegativeButton("取消",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int id) {
-                                    dialog.cancel();
-                                }
-                            });
+        final Dialog dialog=new Dialog(v,"提示",title,type);
+        if (type==0){
+            dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.exit(0);
+                }
+            });
         }
-        if (type==1){
-            builder.setTitle("提示").setMessage(title)
-                    .setCancelable(false)
-                    .setPositiveButton("确定",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int id) {
-                                    dialog.cancel();
-                                }
-                            });
-        }
-        AlertDialog alert = builder.create();
-        alert.show();
+        dialog.show();
+//        AlertDialog.Builder builder = new AlertDialog.Builder(v);
+//        if (type==0) {
+//            builder.setTitle("提示").setMessage(title)
+//                    .setCancelable(false)
+//                    .setPositiveButton("确定",
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog,
+//                                                    int id) {
+//                                    System.exit(0);
+//                                }
+//                            })
+//                    .setNegativeButton("取消",
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog,
+//                                                    int id) {
+//                                    dialog.cancel();
+//                                }
+//                            });
+//        }
+//        if (type==1){
+//            builder.setTitle("提示").setMessage(title)
+//                    .setCancelable(false)
+//                    .setPositiveButton("确定",
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog,
+//                                                    int id) {
+//                                    dialog.cancel();
+//                                }
+//                            });
+//        }
+//        AlertDialog alert = builder.create();
+//        alert.show();
     }
 
     public static String FormatTime(String time){

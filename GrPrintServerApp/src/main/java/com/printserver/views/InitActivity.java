@@ -1,6 +1,7 @@
 package com.printserver.views;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonFlat;
 import com.printserver.base.BaseContext;
 import com.printserver.base.BaseFragmentActivity;
 import com.printserver.base.BaseHelp;
@@ -27,7 +29,7 @@ public class InitActivity extends BaseFragmentActivity implements View.OnClickLi
 
     private  ParameterApplication parameterApplication;
     private TextView tip;
-    private ImageView setup;
+    private ButtonFlat setup;
     private View view_main;
     private boolean initLoadState=true;
 
@@ -45,7 +47,8 @@ public class InitActivity extends BaseFragmentActivity implements View.OnClickLi
 
         initSetup();
         tip=(TextView)findViewById(R.id.init_txt);
-        setup=(ImageView)findViewById(R.id.init_setup);
+        setup=(ButtonFlat)findViewById(R.id.init_setup);
+        setup.textButton.setTextColor(Color.parseColor("#FFFFFF"));
         parameterApplication=(ParameterApplication)getApplication();
 
         setup.setOnClickListener(this);

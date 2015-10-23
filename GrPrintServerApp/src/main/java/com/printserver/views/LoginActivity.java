@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.Switch;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.printserver.base.BaseActivity;
 import com.printserver.base.BaseHelp;
 import com.printserver.base.BaseNfc;
@@ -25,11 +25,11 @@ import com.printserver.base.BaseParameters;
 /**
  * Created by zhangxin on 2015/9/2.
  */
-public class LoginActivity extends BaseActivity implements View.OnClickListener,BaseParameters,CompoundButton.OnCheckedChangeListener {
+public class LoginActivity extends BaseActivity implements View.OnClickListener,BaseParameters {
 
     private EditText userAccount;
     private EditText userPassword;
-    private Button login_btn;
+    private ButtonRectangle login_btn;
     private Switch login_type;
 
     private NfcAdapter nfcAdapter;
@@ -58,10 +58,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         userAccount=(EditText)findViewById(R.id.login_user);
         userPassword=(EditText)findViewById(R.id.login_pw);
         login_type=(Switch)findViewById(R.id.type_open);
-        login_btn=(Button)findViewById(R.id.login_ok_bt);
+        login_btn=(ButtonRectangle)findViewById(R.id.login_ok_bt);
         login_btn.setOnClickListener(this);
-        findViewById(R.id.login_cancel_bt).setOnClickListener(this);
-        login_type.setOnCheckedChangeListener(this);
+        login_type.setOncheckListener(new Switch.OnCheckListener() {
+            @Override
+            public void onCheck(boolean check) {
+                if(check){
+                    login_card=true;
+                }else {
+                    login_card=false;
+                }
+            }
+        });
 
         initNfc();
     }
@@ -97,48 +105,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 Logining();
                 //new Thread(runnable).start();
                 break;
-            case R.id.login_cancel_bt:
-                BaseHelp.ShowDialog(this, "您确定退出吗？", 0);
-                break;
         }
     }
-
-//    private Runnable runnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            UserModel userInfo =new UserModel();
-//            userInfo.setUserAccount(userAccount.getText().toString());
-//            userInfo.setUserPassword(userPassword.getText().toString());
-//            parameterApplication.setUserInfo(userInfo);
-//            String result= Service_User.getUserJson(parameterApplication);
-//            Message msg = new Message();
-//            Bundle bundle = new Bundle();
-//            bundle.putString("userinfo", result);
-//            msg.setData(bundle);
-//            handler.sendMessage(msg);
-//        }
-//    };
-//
-//    private Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            Bundle bundle = msg.getData();
-//            String userinfo = bundle.getString("userinfo");
-//            UserModel userModel = Service_User.userLogin(userinfo);
-//            if (userModel==null) {
-//                Toast.makeText(LoginActivity.this, "登录失败！", Toast.LENGTH_LONG)
-//                        .show();
-//            } else {
-//                Toast.makeText(LoginActivity.this, "登录成功！", Toast.LENGTH_LONG)
-//                        .show();
-//                parameterApplication.setUserInfo(userModel);
-//                Intent intent = new Intent();
-//                intent.setClass(LoginActivity.this, HomeActivity.class);
-//                startActivity(intent);
-//                LoginActivity.this.finish();
-//            }
-//        }
-//    };
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -195,15 +163,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
             }
             intents = intent;
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if(b){
-            login_card=true;
-        }else {
-            login_card=false;
         }
     }
 

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.printserver.base.BaseHelp;
 import com.printserver.base.BaseFragment;
 import com.printserver.base.zxing.CaptureActivity;
@@ -22,8 +23,7 @@ import com.printserver.views.TransferCarrierList;
 public class TransferCarrierFragment extends BaseFragment implements View.OnClickListener {
 
     private EditText carrierID;
-    private Button scan;
-    private Button search;
+    private ButtonRectangle scan,search;
     private HomeActivity homeActivity;
 
     protected View initView(LayoutInflater inflater) {
@@ -40,8 +40,8 @@ public class TransferCarrierFragment extends BaseFragment implements View.OnClic
         super.onViewCreated(view, savedInstanceState);
         carrierID=(EditText)view.findViewById(R.id.carrier_id);
         homeActivity.setCarrierID(carrierID);
-        scan=(Button)view.findViewById(R.id.button_scan);
-        search=(Button)view.findViewById(R.id.button_search);
+        scan=(ButtonRectangle)view.findViewById(R.id.button_scan);
+        search=(ButtonRectangle)view.findViewById(R.id.button_search);
         scan.setOnClickListener(this);
         search.setOnClickListener(this);
     }
@@ -66,19 +66,5 @@ public class TransferCarrierFragment extends BaseFragment implements View.OnClic
                 break;
         }
     }
-
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                Toast.makeText(homeActivity,"点下",Toast.LENGTH_SHORT).show();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                Toast.makeText(homeActivity,"移动",Toast.LENGTH_SHORT).show();
-                break;
-            case MotionEvent.ACTION_UP:
-                Toast.makeText(homeActivity,"离开",Toast.LENGTH_SHORT).show();
-                break;
-        }
-        return true;
-    }
+    
 }

@@ -2,6 +2,7 @@ package com.printserver.views;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.printserver.base.BaseContext;
 import com.printserver.base.BaseHelp;
 import com.printserver.base.BaseParameters;
@@ -27,21 +30,20 @@ import java.util.List;
 public class SetupActivity extends Activity implements View.OnClickListener,BaseParameters {
 
     private EditText localip,mask,gateway,dns,webip,webport, webvrid, listenip, listenport;
-    private Button test_setup,apply_setup;
-    private ImageView back;
-    private View view_main;
+    private ButtonRectangle test_setup,apply_setup;
+    private ButtonFlat back;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view_main=getLayoutInflater().from(this).inflate(R.layout.initsetup_layout,null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         //view_main.setOnClickListener(this);
-        setContentView(view_main);
+        setContentView(R.layout.initsetup_layout);
         BaseHelp.enterLightsOutMode(getWindow());
-        back=(ImageView)findViewById(R.id.init_setup_back);
+        back=(ButtonFlat)findViewById(R.id.init_setup_back);
+        back.textButton.setTextColor(Color.parseColor("#FFFFFF"));
         back.setOnClickListener(this);
 
         localip=(EditText)findViewById(R.id.ip_txt);localip.setKeyListener(null);
@@ -54,8 +56,8 @@ public class SetupActivity extends Activity implements View.OnClickListener,Base
         listenip =(EditText)findViewById(R.id.listenip_txt);
         listenport =(EditText)findViewById(R.id.listenport_txt);
 
-        test_setup=(Button)findViewById(R.id.setup_test);
-        apply_setup=(Button)findViewById(R.id.setup_ok);
+        test_setup=(ButtonRectangle)findViewById(R.id.setup_test);
+        apply_setup=(ButtonRectangle)findViewById(R.id.setup_ok);
         test_setup.setOnClickListener(this);
         apply_setup.setOnClickListener(this);
 
@@ -100,7 +102,6 @@ public class SetupActivity extends Activity implements View.OnClickListener,Base
 
     @Override
     public void onClick(View v) {
-        view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         switch (v.getId()){
             case R.id.init_setup_back:
                 SetupActivity.this.setResult(RESULT_OK, null);

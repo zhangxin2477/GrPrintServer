@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <include
@@ -33,15 +34,12 @@
                 android:id="@+id/linearLayout2"
                 android:gravity="center">
 
-                <Button
-                    android:background="@drawable/btn_button_style"
-                    android:layout_width="wrap_content"
+                <com.gc.materialdesign.views.ButtonRectangle
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:text="确认移交"
                     android:id="@+id/entrustPrint_bt_ok"
-                    android:layout_gravity="center_horizontal"
-                    android:height="50dp"
-                    android:width="100dp" />
+                    android:layout_gravity="center_horizontal"/>
             </LinearLayout>
 
             <LinearLayout
