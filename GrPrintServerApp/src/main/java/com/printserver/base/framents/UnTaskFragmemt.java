@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.printserver.base.BaseFragment;
 import com.printserver.base.BaseHelp;
 import com.printserver.base.widgets.BaseListView;
@@ -33,7 +34,7 @@ public class UnTaskFragmemt extends BaseFragment implements View.OnClickListener
     protected View initView(LayoutInflater inflater) {
         View view=inflater.inflate(R.layout.untask_layout, null);
         listView = (BaseListView)view.findViewById(R.id.listView_UnTask);
-        Button btn=(Button)view.findViewById(R.id.button_print_all);
+        ButtonRectangle btn=(ButtonRectangle)view.findViewById(R.id.button_print_all);
         btn.setOnClickListener(this);
         CheckBox checkBox=(CheckBox)view.findViewById(R.id.headuntask_checkbox);
         checkBox.setOnCheckedChangeListener(this);
@@ -60,13 +61,17 @@ public class UnTaskFragmemt extends BaseFragment implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.button_print_all:
-                ArrayList<String> unTaskIds=homeActivity.unTaskListAdapter.untaskIds;
-                if (unTaskIds!=null){
-                    if (unTaskIds.size()==0){
-                        BaseHelp.ShowDialog(homeActivity,"请选择待打印文件！",1);
-                    }else {
-                        homeActivity.PostUnTask(unTaskIds);
+                if (homeActivity.unTaskListAdapter!=null) {
+                    ArrayList<String> unTaskIds = homeActivity.unTaskListAdapter.untaskIds;
+                    if (unTaskIds != null) {
+                        if (unTaskIds.size() == 0) {
+                            BaseHelp.ShowDialog(homeActivity, "请选择待打印文件！", 1);
+                        } else {
+                            homeActivity.PostUnTask(unTaskIds);
+                        }
                     }
+                }else{
+                    BaseHelp.ShowDialog(homeActivity,"当前无无待打印信息！",1);
                 }
                 break;
         }

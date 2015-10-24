@@ -88,6 +88,12 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
+
+        <receiver android:name="com.printserver.base.BaseListenNetwork">
+            <intent-filter>
+                <action android:name="android.intent.action.CONFIGURATION_CHANGED"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

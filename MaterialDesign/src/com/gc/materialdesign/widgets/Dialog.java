@@ -28,18 +28,20 @@ public class Dialog extends android.app.Dialog{
 	int type;
 	
 	ButtonFlat buttonAccept;
+	String buttonAcceptText;
 	ButtonFlat buttonCancel;
 	
 	View.OnClickListener onAcceptButtonClickListener;
 	View.OnClickListener onCancelButtonClickListener;
 	
 
-	public Dialog(Context context,String title, String message, int type) {
+	public Dialog(Context context,String title, String message, int type, String buttonAcceptText) {
 		super(context, android.R.style.Theme_Translucent);
 		this.context = context;// init Context
 		this.message = message;
 		this.title = title;
 		this.type = type;
+		this.buttonAcceptText=buttonAcceptText;
 	}
 	
 	@Override
@@ -72,6 +74,7 @@ public class Dialog extends android.app.Dialog{
 	    setMessage(message);
 	    
 	    this.buttonAccept = (ButtonFlat) findViewById(R.id.button_accept);
+		this.buttonAccept.setText(buttonAcceptText);
 	    buttonAccept.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

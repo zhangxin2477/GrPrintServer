@@ -148,7 +148,7 @@ public class TransferCarrierList extends Activity implements View.OnClickListene
             switch (resultCode) {
                 case RESULT_OK:
                     Bundle bundle = data.getExtras();
-                    String Result = bundle.getString("tcResult");
+                    String Result = bundle.getString(RESULT_TC);
                     if (Result != null) {
                         listView.setAdapter(new TransferCarrierAdapter(this, Service_Carrier.getCarrierMaps(Result)));
                     }

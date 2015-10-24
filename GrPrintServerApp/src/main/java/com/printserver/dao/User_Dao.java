@@ -74,4 +74,34 @@ public class User_Dao {
         }
         return list;
     }
+    public List<UserModel> UserToModelList(JSONObject user) {
+        List<UserModel> list = new ArrayList<UserModel>();
+        try {
+            JSONArray jsonArray = user.getJSONArray("UserInfo");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = (JSONObject) jsonArray.opt(i);
+                UserModel userModel = new UserModel();
+                userModel.setUserID(jsonObject.getString("id"));
+                userModel.setUserName(jsonObject.getString("name"));
+                userModel.setDeptID(jsonObject.getString("dept_id"));
+                userModel.setDeptName(jsonObject.getString("dept_name"));
+                userModel.setUserAccount(jsonObject.getString("account"));
+                userModel.setUserPassword(jsonObject.getString("pwd"));
+                userModel.setUserIsActive(jsonObject.getString("isactive"));
+                userModel.setPosiID(jsonObject.getString("position_id"));
+                userModel.setPosiName(jsonObject.getString("position_name"));
+                userModel.setUserSec(jsonObject.getString("secgrade"));
+                userModel.setMachineSec(jsonObject.getString("machinesec"));
+                userModel.setUserIsLock(jsonObject.getString("islock"));
+                list.add(userModel);
+            }
+        } catch (JSONException e) {
+            list = null;
+            e.printStackTrace();
+        } catch (Exception e) {
+            list = null;
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

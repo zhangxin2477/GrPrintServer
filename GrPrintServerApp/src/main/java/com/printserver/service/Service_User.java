@@ -4,6 +4,8 @@ import com.printserver.dao.User_Dao;
 import com.printserver.model.UserModel;
 import com.printserver.views.ParameterApplication;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -22,9 +24,13 @@ public class Service_User {
         return user_dao.UserToModelList(jsonUser);
     }
 
-    public static UserModel userLogin(String jsonUser){
+    public static List<UserModel> UserToModelList(JSONObject jsonUser) {
+        user_dao=new User_Dao();
+        return user_dao.UserToModelList(jsonUser);
+    }
+
+    public static UserModel userLogin(List<UserModel> userModelList){
         UserModel result=null;
-        List<UserModel> userModelList=Service_User.UserToModelList(jsonUser);
         if (userModelList==null||userModelList.size()==0){
             result=null;
         }else {

@@ -17,6 +17,8 @@ import android.view.WindowManager;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.widgets.Dialog;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.printserver.views.HomeActivity;
 import com.printserver.views.LoginActivity;
 
@@ -55,6 +57,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cz.msebera.android.httpclient.Header;
+
 /**
  * Created by zhangxin on 2015/9/2.
  */
@@ -63,7 +67,7 @@ public class BaseHelp {
     private static String namespace = "http://tempuri.org/";
 
     public static void ShowDialog(final Context v,String title,int type){
-        final Dialog dialog=new Dialog(v,"提示",title,type);
+        final Dialog dialog=new Dialog(v,"提示",title,type,"确定");
         if (type==0){
             dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
                 @Override
@@ -73,41 +77,6 @@ public class BaseHelp {
             });
         }
         dialog.show();
-//        AlertDialog.Builder builder = new AlertDialog.Builder(v);
-//        if (type==0) {
-//            builder.setTitle("提示").setMessage(title)
-//                    .setCancelable(false)
-//                    .setPositiveButton("确定",
-//                            new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog,
-//                                                    int id) {
-//                                    System.exit(0);
-//                                }
-//                            })
-//                    .setNegativeButton("取消",
-//                            new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog,
-//                                                    int id) {
-//                                    dialog.cancel();
-//                                }
-//                            });
-//        }
-//        if (type==1){
-//            builder.setTitle("提示").setMessage(title)
-//                    .setCancelable(false)
-//                    .setPositiveButton("确定",
-//                            new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog,
-//                                                    int id) {
-//                                    dialog.cancel();
-//                                }
-//                            });
-//        }
-//        AlertDialog alert = builder.create();
-//        alert.show();
     }
 
     public static String FormatTime(String time){

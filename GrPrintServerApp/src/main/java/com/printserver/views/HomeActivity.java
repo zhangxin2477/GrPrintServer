@@ -21,6 +21,9 @@ import android.webkit.URLUtil;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.gc.materialdesign.widgets.Dialog;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
 import com.printserver.base.BaseFragment;
 import com.printserver.base.widgets.BaseListView;
 import com.printserver.base.framents.DoTaskFragment;
@@ -38,6 +41,7 @@ import com.printserver.base.BaseSlidingMenu;
 import com.printserver.base.adapter.UnTaskListAdapter;
 import com.printserver.base.menus.LeftFragmemt;
 import com.printserver.base.menus.RightFrament;
+import com.printserver.dao.GPSClient;
 import com.printserver.service.Service_Common;
 import com.printserver.service.Service_DoTask;
 import com.printserver.service.Service_EntrustPrint;
@@ -59,6 +63,8 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by zhangxin on 2015/9/6.
@@ -112,7 +118,7 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
         view_main=getLayoutInflater().from(this).inflate(R.layout.home_layout,null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         //view_main.setOnClickListener(this);
         setContentView(view_main);
@@ -280,7 +286,7 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                     Result = Result + ";" + carrierID.getText().toString();
                     carrierID.setText(Result);
                 }
-                Result=bundle.getString("dotaskResult");
+                Result=bundle.getString(RESULT_DOTASK);
                 if (Result!=null){
                     doTaskListData=Service_DoTask.getDoTaskMaps(Result);
                     //firstDTD=Service_DoTask.getFirstDoTaskId(Result);
@@ -289,7 +295,7 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                     listView_dt.setAdapter(doTaskListAdapter);
                     setDoTaskListener();
                 }
-                Result=bundle.getString("untaskResult");
+                Result=bundle.getString(RESULT_UNTASK);
                 if (Result!=null){
                     unTaskListData=Service_UnTask.getUnTaskMaps(Result);
                     //firstUTD=Service_UnTask.getFirstUnTaskId(Result);
@@ -298,7 +304,7 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                     listView_ut.setAdapter(unTaskListAdapter);
                     setUnTaskListener();
                 }
-                Result=bundle.getString("setupResult");
+                Result=bundle.getString(RESULT_SETUP);
                 if (Result!=null){
                     if (Result.contains(RESULT_SUCCESS)) {
                         BaseHelp.ShowDialog(this, "测试成功!", 1);
@@ -306,12 +312,12 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                         BaseHelp.ShowDialog(this,"测试失败！",1);
                     }
                 }
-                Result=bundle.getString("epResult");
+                Result=bundle.getString(RESULT_EP);
                 if (Result!=null) {
                     entrustPrintAdapter = new EntrustPrintAdapter(this, Service_EntrustPrint.getEntrustPrintMaps(Result));
                     listView_ep.setAdapter(entrustPrintAdapter);
                 }
-                Result=bundle.getString("pepResult");
+                Result=bundle.getString(RESULT_POSTEP);
                 if (Result!=null){
                     if (Result.contains(RESULT_FAIL)) {
                         BaseHelp.ShowDialog(this, "移交失败!", 1);
@@ -320,7 +326,7 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                         BaseHelp.ShowDialog(this,"移交成功！",1);
                     }
                 }
-                Result=bundle.getString("postUTResult");
+                Result=bundle.getString(RESULT_POSTUT);
                 if (Result!=null){
                     if (Result.contains(RESULT_FAIL)) {
                         BaseHelp.ShowDialog(this, "提交打印失败，服务端未开启!", 1);
@@ -329,43 +335,26 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                         BaseHelp.ShowDialog(this,"提交打印成功，打印正在处理，请待会手动更新列表！",1);
                     }
                 }
-                Result=bundle.getString("updateResult");
+                Result=bundle.getString(RESULT_UPDATE);
                 if (Result!=null){
+                    Dialog dialog=null;
                     if (Result.contains(RESULT_SUCCESS)) {
                         String version=bundle.getString("version");
-                        new AlertDialog.Builder(HomeActivity.this)
-                                .setTitle("新客户端更新")
-                                .setMessage("检测到最新的版本号：V"+version)
-                                .setPositiveButton("下载",
-                                        new DialogInterface.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(
-                                                    DialogInterface dialog,
-                                                    int which) {
-                                                strURL = Service_Common.GetDownPath(getParamaterApplication());
-                                                // 通过地址下载文件
-                                                downloadTheFile(strURL);
-                                                // 显示更新状态，进度条
-                                                showWaitDialog();
-                                            }
-                                        })
-                                .setNegativeButton("取消",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                            }
-                                        }).show();
+                        dialog=new Dialog(this,"新客户端更新","检测到最新的版本号：V"+version,0,"下载");
+                        dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                strURL = Service_Common.GetDownPath(getParamaterApplication());
+                                // 通过地址下载文件
+                                downloadTheFile(strURL);
+                                // 显示更新状态，进度条
+                                showWaitDialog();
+                            }
+                        });
+                        dialog.show();
                     }else {
-                        new AlertDialog.Builder(HomeActivity.this)
-                                .setTitle("新客户端更新")
-                                .setMessage("当前为最新版本！")
-                                .setPositiveButton("确定",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                            }
-                                        }).show();
+                        dialog=new Dialog(this,"新客户端更新","当前为最新版本！",1,"确定");
+                        dialog.show();
                     }
                 }
             }
@@ -420,17 +409,21 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
         intent.setClass(this,LoadingActivity.class);
         intent.putExtra(LOADINGTYPE,POSTUT);
         intent.putStringArrayListExtra("unTaskIds",unTaskIds);
-        startActivityForResult(intent,0);
+        startActivityForResult(intent, 0);
     }
 
     public void UpdateUnTaskSelect(boolean isChecked){
-        unTaskListAdapter.selectAll=isChecked;
-        unTaskListAdapter.notifyDataSetChanged();
+        if(unTaskListAdapter!=null) {
+            unTaskListAdapter.selectAll = isChecked;
+            unTaskListAdapter.notifyDataSetChanged();
+        }
     }
 
     public void UpdateEnPrSelect(boolean isChecked){
-        entrustPrintAdapter.selectAll=isChecked;
-        entrustPrintAdapter.notifyDataSetChanged();
+        if(entrustPrintAdapter!=null) {
+            entrustPrintAdapter.selectAll = isChecked;
+            entrustPrintAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

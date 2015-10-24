@@ -20,7 +20,7 @@ public class ParameterApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        BaseContext baseContext=new BaseContext(this);
+        BaseContext baseContext = new BaseContext(this);
         setConnectIP(baseContext.ReadDataValue("webip"));//初始化全局变量
         setConnectPort(baseContext.ReadDataValue("webport"));
         setConnectVrid(baseContext.ReadDataValue("webvrid"));
@@ -29,27 +29,27 @@ public class ParameterApplication extends Application {
         setUserInfo(UserInfo);
     }
 
-    public void setConnectIP(String value){
-        this.ConnectIP=value;
+    public void setConnectIP(String value) {
+        this.ConnectIP = value;
     }
 
-    public String getConnectIP(){
+    public String getConnectIP() {
         return this.ConnectIP;
     }
 
-    public void setConnectPort(String value){
-        this.ConnectPort=value;
+    public void setConnectPort(String value) {
+        this.ConnectPort = value;
     }
 
-    public String getConnectPort(){
+    public String getConnectPort() {
         return this.ConnectPort;
     }
 
-    public void setConnectVrid(String value){
-        this.ConnectVrid =value;
+    public void setConnectVrid(String value) {
+        this.ConnectVrid = value;
     }
 
-    public String getConnectVrid(){
+    public String getConnectVrid() {
         return this.ConnectVrid;
     }
 

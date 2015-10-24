@@ -53,13 +53,17 @@ public class EntrustPrintFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.entrustPrint_bt_ok:
-                ArrayList<String> entrustPrintIds = homeActivity.entrustPrintAdapter.entrustPrintIds;
-                if (entrustPrintIds != null) {
-                    if (entrustPrintIds.size() == 0) {
-                        BaseHelp.ShowDialog(homeActivity, "请选择确认移交的打印信息！", 1);
-                    }else {
-                        homeActivity.PostEntrustPrint(entrustPrintIds);
+                if(homeActivity.entrustPrintAdapter!=null) {
+                    ArrayList<String> entrustPrintIds = homeActivity.entrustPrintAdapter.entrustPrintIds;
+                    if (entrustPrintIds != null) {
+                        if (entrustPrintIds.size() == 0) {
+                            BaseHelp.ShowDialog(homeActivity, "请选择确认移交的打印信息！", 1);
+                        } else {
+                            homeActivity.PostEntrustPrint(entrustPrintIds);
+                        }
                     }
+                }else{
+                    BaseHelp.ShowDialog(homeActivity,"当前无打印移交信息！",1);
                 }
                 break;
         }
@@ -73,21 +77,6 @@ public class EntrustPrintFragment extends BaseFragment implements View.OnClickLi
         } else {
             checkBox.setChecked(true);
         }
-    }
-
-    public boolean onTouch(MotionEvent event) {
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                Toast.makeText(homeActivity,"点下",Toast.LENGTH_SHORT).show();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                Toast.makeText(homeActivity,"移动",Toast.LENGTH_SHORT).show();
-                break;
-            case MotionEvent.ACTION_UP:
-                Toast.makeText(homeActivity,"离开",Toast.LENGTH_SHORT).show();
-                break;
-        }
-        return true;
     }
 
     @Override
