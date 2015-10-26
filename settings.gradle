@@ -1,2 +1,1 @@
-include ':MaterialDesign'
-include ':GrPrintServerApp'
+include ':GrPrintServerApp', ':MaterialDesign'

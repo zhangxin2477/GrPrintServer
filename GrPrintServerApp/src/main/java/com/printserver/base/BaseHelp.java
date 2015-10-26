@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.widgets.Dialog;
@@ -128,22 +129,21 @@ public class BaseHelp {
         return stringBuilder.toString();
     }
 
-    public static boolean CheckNetworkConnect(Activity MainActivity) {
-        Context context = MainActivity.getApplicationContext();
-        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity == null) {
-            return false;
-        } else {
-            NetworkInfo[] info = connectivity.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
-                }
-            }
+    public static boolean CheckNetworkConnect(Context context) {
+        boolean result=false;
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mobileInfo = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        NetworkInfo wifiInfo = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo ethInfo = manager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET);
+        NetworkInfo activeInfo = manager.getActiveNetworkInfo();
+        Log.v("networkInfo", "mobile:" + mobileInfo.isConnected()
+                + "\n" + "wifi:" + wifiInfo.isConnected()
+                + "\n" + "eth:" + ethInfo.isConnected()
+                + "\n" + "active:" + activeInfo.getTypeName());
+        if (wifiInfo.isConnected()||ethInfo.isConnected()){
+            result = true;
         }
-        return false;
+        return result;
     }
 
     public static boolean PingIP(String host) {

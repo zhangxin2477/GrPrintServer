@@ -1,7 +1,10 @@
 package com.printserver.views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -73,9 +76,16 @@ public class InitActivity extends BaseFragmentActivity implements View.OnClickLi
     private void initSetup() {
         BaseContext baseContext = new BaseContext(this);
         if (baseContext.ReadDataValue("webip").equals("")) {
-            baseContext.WriteData("webip", "192.168.1.107");
+            baseContext.WriteData("webip", "192.168.1.100");
             baseContext.WriteData("webport", "80");
             baseContext.WriteData("webvrid", "print");
+            baseContext.WriteData("listenip","192.168.1.100");
+            baseContext.WriteData("listenport","50000");
+            parameterApplication.setConnectIP("192.168.1.100");
+            parameterApplication.setConnectPort("80");
+            parameterApplication.setConnectVrid("print");
+            parameterApplication.setListenIP("192.168.1.100");
+            parameterApplication.setListenPort("80");
         }
     }
 
