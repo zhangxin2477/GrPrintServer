@@ -16,7 +16,6 @@ public class BaseActivity extends Activity {
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //BaseHelp.ShowDialog(this, "您确定退出吗？", 0);
             return false;
         }
         if (keyCode == KeyEvent.KEYCODE_MENU) {

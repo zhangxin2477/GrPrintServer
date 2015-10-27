@@ -1,27 +1,12 @@
 package com.printserver.base;
 
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiInfo;
+import android.net.*;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
-import com.gc.materialdesign.views.ButtonFlat;
 import com.gc.materialdesign.widgets.Dialog;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.printserver.views.HomeActivity;
-import com.printserver.views.LoginActivity;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,40 +17,19 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.SoapFault;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by zhangxin on 2015/9/2.
  */
 public class BaseHelp {
-
-    private static String namespace = "http://tempuri.org/";
 
     public static void ShowDialog(final Context v,String title,int type){
         final Dialog dialog=new Dialog(v,"提示",title,type,"确定");
@@ -78,21 +42,6 @@ public class BaseHelp {
             });
         }
         dialog.show();
-    }
-
-    public static String FormatTime(String time){
-        if (time==null||time.equals("")){
-            return "";
-        }else {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-            Date date = null;
-            try {
-                date = dateFormat.parse(time);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
-        }
     }
 
     //字符序列转换为16进制字符串
@@ -146,112 +95,6 @@ public class BaseHelp {
         return result;
     }
 
-    public static boolean PingIP(String host) {
-        boolean result=false;
-        Runtime runtime = Runtime.getRuntime(); // 获取当前程序的运行进对象
-        Process process = null; // 声明处理类对象
-        String line = null; // 返回行信息
-        InputStream is = null; // 输入流
-        InputStreamReader isr = null; // 字节流
-        BufferedReader br = null;
-        try {
-            process = runtime.exec("ping " + host+" -n 1 -w 3"); // PING
-            is = process.getInputStream(); // 实例化输入流
-            isr = new InputStreamReader(is);// 把输入流转换成字节流
-            br = new BufferedReader(isr);// 从字节中读取文本
-            process.waitFor();
-            while ((line = br.readLine()) != null) {
-                if (line.contains("TTL")) {
-                    result = true;
-                    break;
-                }
-            }
-            is.close();
-            isr.close();
-            br.close();
-            if (result) {
-                System.out.println("ping 通  ...");
-            } else {
-                System.out.println("ping 不通...");
-            }
-        } catch (IOException e) {
-            System.out.println(e);
-            runtime.exit(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            runtime.exit(1);
-        }
-        return result;
-    }
-
-    public static String LoadMethods_GetString(String ip, String port, String vdir, String methodName, Map<String,String> parameters) {
-        String result=null;
-        String endPoint = "http://" + ip + ":" + port +"/"+ vdir + "/PrinterServices/PrintService.asmx";
-        String soapAcion = "http://" + ip + ":" + port +"/"+ vdir + "/PrinterServices/PrintService.asmx/" + methodName;
-        SoapObject soapObject = new SoapObject(namespace, methodName);
-        if (parameters!=null) {
-            for (Map.Entry<String, String> params : parameters.entrySet()) {
-                soapObject.addProperty(params.getKey(), params.getValue());
-            }
-        }
-        SoapSerializationEnvelope envelope=new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        envelope.setOutputSoapObject(soapObject);
-        envelope.dotNet=true;
-        HttpTransportSE transportSE=new HttpTransportSE(endPoint);
-        try {
-            transportSE.call(soapAcion, envelope);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return result;
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-            return result;
-        }
-        SoapObject object = (SoapObject) envelope.bodyIn;
-        result = object.getProperty(0).toString();
-        return result;
-    }
-
-    public static SoapObject LoadMethods_GetMap(String ip, String port, String vdir, String methodName, Map<String,String> parameters) {
-        SoapObject result=null;
-        String endPoint = "http://" + ip + ":" + port +"/"+ vdir +"/PrinterServices/PrintService.asmx";
-        String soapAcion = "http://" + ip + ":" + port + "/" + methodName;
-        SoapObject soapObject = new SoapObject(namespace, methodName);
-        if (parameters!=null) {
-            for (Map.Entry<String, String> params : parameters.entrySet()) {
-                soapObject.addProperty(params.getKey(), params.getValue());
-            }
-        }
-        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-        envelope.setOutputSoapObject(soapObject);
-        envelope.dotNet = true;
-        HttpTransportSE transportSE = new HttpTransportSE(endPoint);
-        try {
-            transportSE.call(soapAcion, envelope);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return result;
-        } catch (XmlPullParserException e) {
-            e.printStackTrace();
-            return result;
-        }
-        SoapObject object = null;
-        try {
-            object = (SoapObject) envelope.getResponse();
-        } catch (SoapFault e) {
-            e.printStackTrace();
-            return result;
-        }
-        object = (SoapObject) object.getProperty(1);
-        if (object.toString().equals("anyType{}")) {
-            Log.v("object1", object.toString());
-        } else {
-            object = (SoapObject) object.getProperty(0);
-            result=object;
-        }
-        return result;
-    }
-
     public static String GetAllData(String ip, String port, String vdir, String methodName, Map<String, String> parameters) {
         String result = "";
         try {
@@ -276,62 +119,6 @@ public class BaseHelp {
             e.printStackTrace();
         }
         return result;
-    }
-
-    public static InetAddress getLocalInetAddress() {
-        InetAddress ip = null;
-        try {
-            Enumeration<NetworkInterface> en_netInterface = NetworkInterface.getNetworkInterfaces();
-            while (en_netInterface.hasMoreElements()) {
-                NetworkInterface ni = (NetworkInterface) en_netInterface.nextElement();
-                Enumeration<InetAddress> en_ip = ni.getInetAddresses();
-                while (en_ip.hasMoreElements()) {
-                    ip = en_ip.nextElement();
-                    if (!ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1)
-                        break;
-                    else
-                        ip = null;
-                }
-                if (ip != null) {
-                    break;
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        return ip;
-    }
-
-    public static String getLocalInetAddress(InetAddress ip){
-        return ip.toString();
-    }
-
-    private static String intToIp(int paramInt) {
-        return (paramInt & 0xFF) + "." + (0xFF & paramInt >> 8) + "." + (0xFF & paramInt >> 16) + "."
-                + (0xFF & paramInt >> 24);
-    }
-
-    public static String getMacAddress(){
-        String strMacAddr = null;
-        try {
-            InetAddress ip = getLocalInetAddress();
-
-            byte[] b = NetworkInterface.getByInetAddress(ip).getHardwareAddress();
-            StringBuffer buffer = new StringBuffer();
-            for (int i = 0; i < b.length; i++) {
-                if (i != 0) {
-                    buffer.append('-');
-                }
-
-                String str = Integer.toHexString(b[i] & 0xFF);
-                buffer.append(str.length() == 1 ? 0 + str : str);
-            }
-            strMacAddr = buffer.toString().toUpperCase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return strMacAddr;
     }
 
     //getprop->
@@ -432,12 +219,6 @@ public class BaseHelp {
         return jsonObject;
     }
 
-    public static void enterLightsOutMode(Window window) {
-        WindowManager.LayoutParams params = window.getAttributes();
-        params.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE;
-        window.setAttributes(params);
-    }
-
     public static String GetHtml(String ip, String port, String vdir) {
         String urlString="http://" + ip + ":" + port +"/"+ vdir +"/PrintCSUpdate/Android/androidupdate.html";
         String html = null;
@@ -465,19 +246,5 @@ public class BaseHelp {
 
     public static String GetDownUrl(String ip, String port, String vdir){
         return "http://" + ip + ":" + port +"/"+ vdir +"/PrintCSUpdate/Android/GrPrintServer.apk";
-    }
-
-    public static String GetLocalIP(){
-        JSONObject jsonObject = BaseHelp.getEthernet();
-        if (jsonObject.length() <= 0) {
-            jsonObject = BaseHelp.getWirelessnet();
-        }
-        String ip = "";
-        try {
-            ip = jsonObject.get("IPAddress").toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return ip;
     }
 }

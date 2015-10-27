@@ -55,26 +55,21 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by zhangxin on 2015/9/10.
  */
-public class LoadingActivity extends Activity implements BaseParameters, View.OnClickListener {
+public class LoadingActivity extends Activity implements BaseParameters {
 
     private ParameterApplication parameterApplication;
     private Bundle loadingData;
     private String loadingType;
-
     private TextView loadingText;
-    private View view_main;
-    private Thread thread;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view_main = getLayoutInflater().from(this).inflate(R.layout.loading_layout, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        setContentView(R.layout.loading_layout);
 
-        setContentView(view_main);
-        BaseHelp.enterLightsOutMode(getWindow());
         loadingText = (TextView) findViewById(R.id.loading_txt);
 
         parameterApplication = (ParameterApplication) getApplication();
@@ -82,9 +77,6 @@ public class LoadingActivity extends Activity implements BaseParameters, View.On
         loadingType = loadingData.getString(LOADINGTYPE);
 
         intLoading();
-
-        //thread = new Thread(runnable);
-        //thread.start();
     }
 
     private void intLoading() {
@@ -330,171 +322,6 @@ public class LoadingActivity extends Activity implements BaseParameters, View.On
         LoadingActivity.this.setResult(RESULT_OK, resultIntent);
         LoadingActivity.this.finish();
         LoadingActivity.this.onDestroy();
-    }
-
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if (loadingType != null) {
-                if (loadingType.equals(LOGIN)) {
-                    loadingText.setText("正在登录...");
-                    String result = "";
-                    UserModel userInfo = new UserModel();
-                    userInfo.setUserAccount(loadingData.getString("userAccount"));
-                    userInfo.setUserPassword(loadingData.getString("userPassword"));
-                    parameterApplication.setUserInfo(userInfo);
-                    String loginType = loadingData.getString("loginType");
-                    String userinfo = Service_User.getUserJson(parameterApplication, loginType);
-                    UserModel userModel = Service_User.userLogin(Service_User.UserToModelList(userinfo));
-                    if (userModel == null) {
-                        result = RESULT_FAIL;
-                    } else {
-                        parameterApplication.setUserInfo(userModel);
-                        result = RESULT_SUCCESS;
-                    }
-
-                    Intent resultIntent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(RESULT_LOGIN, result);
-                    resultIntent.putExtras(bundle);
-                    LoadingActivity.this.setResult(RESULT_OK, resultIntent);
-                    LoadingActivity.this.finish();
-                    LoadingActivity.this.onDestroy();
-                }
-                if (loadingType.equals(INITSETUP)) {
-                    loadingText.setText("正在测试...");
-                    String result = "";
-                    if (Service_Common.TestConnect(parameterApplication)) {
-                        result = RESULT_SUCCESS;
-                    } else {
-                        result = RESULT_FAIL;
-                    }
-
-                    Intent resultIntent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(RESULT_SETUP, result);
-                    resultIntent.putExtras(bundle);
-                    LoadingActivity.this.setResult(RESULT_OK, resultIntent);
-                    LoadingActivity.this.finish();
-                    LoadingActivity.this.onDestroy();
-                }
-                if (loadingType.equals(DOTASK)) {
-                    loadingText.setText("正在加载数据...");
-                    String result = "";
-                    result = Service_DoTask.getDoTaskJson(parameterApplication, "1");
-
-                    Intent resultIntent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(RESULT_DOTASK, result);
-                    resultIntent.putExtras(bundle);
-                    LoadingActivity.this.setResult(RESULT_OK, resultIntent);
-                    LoadingActivity.this.finish();
-                    LoadingActivity.this.onDestroy();
-                }
-                if (loadingType.equals(UNTASK)) {
-                    loadingText.setText("正在加载数据...");
-                    String result = "";
-                    result = Service_UnTask.getUnTaskJson(parameterApplication, "1");
-
-                    Intent resultIntent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(RESULT_UNTASK, result);
-                    resultIntent.putExtras(bundle);
-                    LoadingActivity.this.setResult(RESULT_OK, resultIntent);
-                    LoadingActivity.this.finish();
-                    LoadingActivity.this.onDestroy();
-                }
-                if (loadingType.equals(TRANSFERCARRIER)) {
-                    loadingText.setText("正在加载数据...");
-                    String result = "";
-                    result = Service_Carrier.GetCarrierString(parameterApplication, loadingData.getString("carrierID"), "1");
-
-                    Intent resultIntent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(RESULT_TC, result);
-                    resultIntent.putExtras(bundle);
-                    LoadingActivity.this.setResult(RESULT_OK, resultIntent);
-                    LoadingActivity.this.finish();
-                    LoadingActivity.this.onDestroy();
-                }
-                if (loadingType.equals(ENTRUSTPRINT)) {
-                    loadingText.setText("正在加载数据...");
-                    String result = "";
-                    result = Service_EntrustPrint.getEntrustPrintString(parameterApplication);
-
-                    Intent resultIntent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(RESULT_EP, result);
-                    resultIntent.putExtras(bundle);
-                    LoadingActivity.this.setResult(RESULT_OK, resultIntent);
-                    LoadingActivity.this.finish();
-                    LoadingActivity.this.onDestroy();
-                }
-                if (loadingType.equals(POSTEP)) {
-                    loadingText.setText("正在让数据飞往服务器...");
-                    ArrayList<String> entrustPrintIds = loadingData.getStringArrayList("entrustPrintIds");
-                    String result = Service_EntrustPrint.getPostEPResult(parameterApplication, entrustPrintIds);
-                    if (result.equals("ok")) {
-                        loadingText.setText("重新部署数据中...");
-                        result = Service_EntrustPrint.getEntrustPrintString(parameterApplication);
-
-                        Intent resultIntent = new Intent();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(RESULT_EP, result);
-                        bundle.putString(RESULT_POSTEP, "ok");
-                        resultIntent.putExtras(bundle);
-                        LoadingActivity.this.setResult(RESULT_OK, resultIntent);
-                        LoadingActivity.this.finish();
-                        LoadingActivity.this.onDestroy();
-                    } else {
-                        Intent resultIntent = new Intent();
-                        Bundle bundle = new Bundle();
-                        bundle.putString(RESULT_POSTEP, result);
-                        resultIntent.putExtras(bundle);
-                        LoadingActivity.this.setResult(RESULT_OK, resultIntent);
-                        LoadingActivity.this.finish();
-                        LoadingActivity.this.onDestroy();
-                    }
-                }
-                if (loadingType.equals(UPDATE)) {
-                    loadingText.setText("正在检查更新...");
-                    String result = "", version = "";
-                    version = Service_Common.GetVersion(parameterApplication);
-                    result = version;
-                    if (result != null && !result.equals(getVersion())) {
-                        result = RESULT_SUCCESS;
-                    } else {
-                        result = RESULT_FAIL;
-                    }
-
-                    Intent resultIntent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putString(RESULT_UPDATE, result);
-                    bundle.putString("version", version);
-                    resultIntent.putExtras(bundle);
-                    LoadingActivity.this.setResult(RESULT_OK, resultIntent);
-                    LoadingActivity.this.finish();
-                    LoadingActivity.this.onDestroy();
-                }
-                if (loadingType.equals(POSTUT)) {
-                    loadingText.setText("正在发送打印数据...");
-                    ArrayList<String> unTaskIds = loadingData.getStringArrayList("unTaskIds");
-                    String unTaskStr = "";
-                    if (unTaskIds.size() > 0) {
-                        for (String tmp : unTaskIds) {
-                            unTaskStr = tmp + ";" + unTaskStr;
-                        }
-                    }
-                    unTaskStr = parameterApplication.getUserInfo().getUserName() + ":" + unTaskStr.substring(0, unTaskStr.length() - 1);
-                    acceptServer(unTaskStr);
-                }
-            }
-        }
-    };
-
-    @Override
-    public void onClick(View view) {
-        view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
     // 获取版本号

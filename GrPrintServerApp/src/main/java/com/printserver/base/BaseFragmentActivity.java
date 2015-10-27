@@ -44,21 +44,4 @@ public class BaseFragmentActivity extends FragmentActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-    public void CloseActivity(){
-        this.finish();
-        this.onDestroy();
-    }
-
-    public String getVersion(Context context) {
-        try {
-            PackageManager manager = context.getPackageManager();
-            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-            String version = info.versionName;
-            return version;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }

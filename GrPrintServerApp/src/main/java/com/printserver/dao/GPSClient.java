@@ -15,10 +15,12 @@ public class GPSClient {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    static {client.setTimeout(10000);}
+    static {
+        client.setTimeout(10000);
+    }
 
     public static void get(Context context, String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-        client.get(getAbsoluteUrl(url,context), params, responseHandler);
+        client.get(getAbsoluteUrl(url, context), params, responseHandler);
     }
 
     public static void get(Context context, String url, AsyncHttpResponseHandler responseHandler) {
@@ -26,15 +28,15 @@ public class GPSClient {
     }
 
     public static void post(String url, Context context, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-        client.post(getAbsoluteUrl(url,context), params, responseHandler);
+        client.post(getAbsoluteUrl(url, context), params, responseHandler);
     }
 
-    public static AsyncHttpClient getClient(){
+    public static AsyncHttpClient getClient() {
         return client;
     }
 
-    private static String getAbsoluteUrl(String relativeUrl,Context context) {
-        BaseContext baseContext=new BaseContext(context);
+    private static String getAbsoluteUrl(String relativeUrl, Context context) {
+        BaseContext baseContext = new BaseContext(context);
         String ip = baseContext.ReadDataValue("webip");
         String port = baseContext.ReadDataValue("webport");
         String vrid = baseContext.ReadDataValue("webvrid");

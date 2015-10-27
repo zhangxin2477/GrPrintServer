@@ -12,10 +12,6 @@ import org.json.JSONObject;
  */
 public class Service_Common {
     private static Connect_Dao connect_dao;
-    public static boolean TestConnect(ParameterApplication parameterApplication){
-        connect_dao=new Connect_Dao();
-        return connect_dao.TestConnect(parameterApplication);
-    }
 
     public static String GetVersion(ParameterApplication parameterApplication){
         String result= BaseHelp.GetHtml(parameterApplication.getConnectIP(),parameterApplication.getConnectPort(),parameterApplication.getConnectVrid());

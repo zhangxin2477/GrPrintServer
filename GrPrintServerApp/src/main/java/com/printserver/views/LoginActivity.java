@@ -40,19 +40,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private boolean isnews = true;
 
     private ParameterApplication parameterApplication;
-    private View view_main;
     private boolean login_card = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view_main = getLayoutInflater().from(this).inflate(R.layout.login_layout, null);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        //view_main.setOnClickListener(this);
-        setContentView(view_main);
+        setContentView(R.layout.login_layout);
 
-        BaseHelp.enterLightsOutMode(getWindow());
         parameterApplication = (ParameterApplication) getApplication();
 
         userAccount = (EditText) findViewById(R.id.login_user);
@@ -95,7 +90,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
-        //view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         switch (v.getId()) {
             case R.id.login_ok_bt:
                 if (login_card) {
@@ -103,7 +97,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     return;
                 }
                 Logining();
-                //new Thread(runnable).start();
                 break;
         }
     }

@@ -92,7 +92,6 @@ public class BaseNfc  {
                     for (int i = 0; i < bCount; i++) {
                         byte[] data = mfc.readBlock(bIndex);
                         cardContentStr+="\nSector0:"+ BaseHelp.bytesToHexString(data);
-                        //message.setText("88"+BaseHelp.bytesToHexString(data).substring(0,6));
                         tmp="88"+BaseHelp.bytesToHexString(data).substring(0,6);
                         bIndex++;
                         break;
@@ -104,7 +103,6 @@ public class BaseNfc  {
                 break;
             }
             return  tmp;
-            //message.setText(cardContentStr);
         } catch (Exception e) {
             e.printStackTrace();
             BaseHelp.ShowDialog(context, "由于您刷卡太快，卡数据未读取完整！", 1);

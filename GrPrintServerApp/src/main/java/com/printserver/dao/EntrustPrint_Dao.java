@@ -17,21 +17,21 @@ import java.util.Map;
  * Created by zhangxin on 2015/9/17.
  */
 public class EntrustPrint_Dao {
-    private String ip="";
-    private String port="";
-    private String vdir="";
+    private String ip = "";
+    private String port = "";
+    private String vdir = "";
 
-    public String GetEntrustPrintString(ParameterApplication parameterApplication){
+    public String GetEntrustPrintString(ParameterApplication parameterApplication) {
         ip = parameterApplication.getConnectIP();
         port = parameterApplication.getConnectPort();
         vdir = parameterApplication.getConnectVrid();
         String userID = parameterApplication.getUserInfo().getUserID();
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("userID", userID);
-        String ep =null;
+        String ep = null;
         try {
             ep = BaseHelp.GetAllData(ip, port, vdir, "AndroidEntrustPrintInfo", parameters);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             ep = null;
         }
@@ -61,25 +61,25 @@ public class EntrustPrint_Dao {
                 entrustPrintModelList.add(entrustPrintModel);
             }
         } catch (JSONException e) {
-            entrustPrintModelList =null;
+            entrustPrintModelList = null;
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-            entrustPrintModelList =null;
+            entrustPrintModelList = null;
         }
         return entrustPrintModelList;
     }
 
-    public String GetPostEPResult(ParameterApplication parameterApplication,String epIds){
+    public String GetPostEPResult(ParameterApplication parameterApplication, String epIds) {
         ip = parameterApplication.getConnectIP();
         port = parameterApplication.getConnectPort();
         vdir = parameterApplication.getConnectVrid();
         Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("epIds", epIds);
-        String ep =null;
+        String ep = null;
         try {
             ep = BaseHelp.GetAllData(ip, port, vdir, "AndroidPostEP", parameters);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             ep = null;
         }

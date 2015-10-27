@@ -1,125 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/head_include"
-        layout="@layout/maintitle_layout"/>
-    <!--
-        <android.support.v4.view.ViewPager-->
+        layout="@layout/maintitle_layout" />
+
     <FrameLayout
         android:id="@+id/pagerContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/head_include"
-        android:background="#BFEFFF" >
+        android:background="#BFEFFF">
 
         <RelativeLayout
-            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:background="@mipmap/background"
             android:gravity="center"
-            android:background="@mipmap/background">
+            android:orientation="vertical">
 
 
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentTop="false"
                 android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:padding="15dp"
-                android:id="@+id/linearLayout2"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="15dp">
 
                 <com.gc.materialdesign.views.ButtonRectangle
+                    android:id="@+id/entrustPrint_bt_ok"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:text="确认移交"
-                    android:id="@+id/entrustPrint_bt_ok"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal"
+                    android:text="确认移交" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/linearLayout2"
-                android:background="@drawable/boeder_style"
+                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true">
+                android:background="@drawable/boeder_style"
+                android:orientation="vertical">
+
                 <TableRow
-                    android:background="@drawable/boeder_style"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:layout_height="40dp"
+                    android:background="@drawable/boeder_style">
 
                     <CheckBox
+                        android:id="@+id/headentpri_choice"
                         android:layout_width="40dp"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text=""
-                        android:id="@+id/headentpri_choice"
-                        android:textSize="30sp"
-                        android:gravity="center" />
+                        android:textSize="30sp" />
 
-                    <View android:layout_width="1dip"
+                    <View
+                        android:layout_width="1dip"
                         android:layout_height="fill_parent"
                         android:background="#FFFFFF" />
 
                     <TextView
+                        android:id="@+id/headentpri_id"
                         android:layout_width="60dp"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text="序号"
-                        android:id="@+id/headentpri_id"
-                        android:textSize="30sp"
-                        android:gravity="center" />
+                        android:textSize="30sp" />
 
-                    <View android:layout_width="1dip"
+                    <View
+                        android:layout_width="1dip"
                         android:layout_height="fill_parent"
                         android:background="#FFFFFF" />
 
                     <TextView
+                        android:id="@+id/headentpri_time"
                         android:layout_width="180dp"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text="打印时间"
-                        android:id="@+id/headentpri_time"
-                        android:textSize="30sp"
-                        android:gravity="center" />
+                        android:textSize="30sp" />
 
-                    <View android:layout_width="1dip"
+                    <View
+                        android:layout_width="1dip"
                         android:layout_height="fill_parent"
                         android:background="#FFFFFF" />
 
                     <TextView
+                        android:id="@+id/headentpri_clint"
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text="委托人"
-                        android:id="@+id/headentpri_clint"
-                        android:textSize="30sp"
-                        android:gravity="center" />
+                        android:textSize="30sp" />
 
-                    <View android:layout_width="1dip"
+                    <View
+                        android:layout_width="1dip"
                         android:layout_height="fill_parent"
                         android:background="#FFFFFF" />
 
                     <TextView
+                        android:id="@+id/headentpri_state"
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text="状态"
-                        android:id="@+id/headentpri_state"
-                        android:textSize="30sp"
-                        android:gravity="center" />
+                        android:textSize="30sp" />
 
-                    <View android:layout_width="1dip"
+                    <View
+                        android:layout_width="1dip"
                         android:layout_height="fill_parent"
                         android:background="#FFFFFF" />
 
                     <TextView
+                        android:id="@+id/headentpri_filename"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="文件名称"
-                        android:id="@+id/headentpri_filename"
                         android:textSize="30sp" />
 
                 </TableRow>
@@ -130,9 +136,9 @@
                     android:background="#FFFFFF"></View>
 
                 <ListView
+                    android:id="@+id/listView_EntrustPrint"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:id="@+id/listView_EntrustPrint"
                     android:choiceMode="multipleChoice" />
             </LinearLayout>
         </RelativeLayout>

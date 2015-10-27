@@ -17,26 +17,9 @@ import java.util.Map;
  * Created by zhangxin on 2015/9/15.
  */
 public class Carrier_Dao {
-    private String ip="";
-    private String port="";
-    private String vdir="";
-
-    public String GetCarrierString(ParameterApplication parameterApplication,String barcode,String comefrom){
-        ip = parameterApplication.getConnectIP();
-        port = parameterApplication.getConnectPort();
-        vdir = parameterApplication.getConnectVrid();
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("barcode", barcode);
-        parameters.put("comefrom",comefrom);
-        String carrier =null;
-        try {
-            carrier = BaseHelp.GetAllData(ip, port, vdir, "AndroidGetCarrierInfo", parameters);
-        }catch (Exception e){
-            e.printStackTrace();
-            carrier = null;
-        }
-        return carrier;
-    }
+    private String ip = "";
+    private String port = "";
+    private String vdir = "";
 
     public List<CarrierModel> CarrierToModel(String Carrier) {
         List<CarrierModel> carrierList = new ArrayList<CarrierModel>();
@@ -56,29 +39,12 @@ public class Carrier_Dao {
                 carrierList.add(carrierModel);
             }
         } catch (JSONException e) {
-            carrierList =null;
+            carrierList = null;
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-            carrierList =null;
+            carrierList = null;
         }
         return carrierList;
-    }
-
-    public String GetTransferCarrierResult(ParameterApplication parameterApplication,String cardID,String carrierIDs){
-        ip = parameterApplication.getConnectIP();
-        port = parameterApplication.getConnectPort();
-        vdir = parameterApplication.getConnectVrid();
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("cardID", cardID);
-        parameters.put("carrierIDs",carrierIDs);
-        String transfercarrierResult =null;
-        try {
-            transfercarrierResult = BaseHelp.GetAllData(ip, port, vdir, "AndroidTransferCarrier", parameters);
-        }catch (Exception e){
-            e.printStackTrace();
-            transfercarrierResult = null;
-        }
-        return transfercarrierResult;
     }
 }

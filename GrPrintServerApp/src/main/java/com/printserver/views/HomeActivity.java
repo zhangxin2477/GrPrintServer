@@ -69,7 +69,7 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created by zhangxin on 2015/9/6.
  */
-public class HomeActivity extends BaseFragmentActivity implements BaseParameters,View.OnClickListener{
+public class HomeActivity extends BaseFragmentActivity implements BaseParameters{
 
     BaseSlidingMenu baseSlidingMenu;
     TransferCarrierFragment transferCarrierFrament;
@@ -85,13 +85,12 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
     public EntrustPrintAdapter entrustPrintAdapter;
 
     private EditText carrierID;
-    private View view_main;
 
     private BaseListView listView_dt,listView_ut;
     private DoTaskListAdapter doTaskListAdapter;
     public UnTaskListAdapter unTaskListAdapter;
     private List<Map<String, Object>> doTaskListData,unTaskListData;
-    public int firstDTD,lastDTD,firstUTD,lastUTD;//记录刷新记录
+    public int lastDTD,lastUTD;//记录刷新记录
 
     // 文件当前路径
     private String currentFilePath = "";
@@ -105,24 +104,12 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
     private String strURL = "";
     private ProgressDialog dialog;
 
-    private static final String HOST = "192.168.1.124";
-    private static final int PORT = 12345;
-    private Socket socket = null;
-    private BufferedReader in = null;
-    private PrintWriter out = null;
-    private String content = "";
-    private StringBuilder sb = null;
-
     protected void onCreate(Bundle home){
         super.onCreate(home);
-        view_main=getLayoutInflater().from(this).inflate(R.layout.home_layout,null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        //view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        //view_main.setOnClickListener(this);
-        setContentView(view_main);
-        BaseHelp.enterLightsOutMode(getWindow());
+        setContentView(R.layout.home_layout);
         init();
         initListener();
     }
@@ -289,8 +276,7 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                 Result=bundle.getString(RESULT_DOTASK);
                 if (Result!=null){
                     doTaskListData=Service_DoTask.getDoTaskMaps(Result);
-                    //firstDTD=Service_DoTask.getFirstDoTaskId(Result);
-                    lastDTD=1;//Service_DoTask.getLastDoTaskId(Result);
+                    lastDTD=1;
                     doTaskListAdapter=new DoTaskListAdapter(this, doTaskListData);
                     listView_dt.setAdapter(doTaskListAdapter);
                     setDoTaskListener();
@@ -298,8 +284,7 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                 Result=bundle.getString(RESULT_UNTASK);
                 if (Result!=null){
                     unTaskListData=Service_UnTask.getUnTaskMaps(Result);
-                    //firstUTD=Service_UnTask.getFirstUnTaskId(Result);
-                    lastUTD=1;//Service_UnTask.getLastUnTaskId(Result);
+                    lastUTD=1;
                     unTaskListAdapter=new UnTaskListAdapter(this, unTaskListData);
                     listView_ut.setAdapter(unTaskListAdapter);
                     setUnTaskListener();
@@ -424,11 +409,6 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
             entrustPrintAdapter.selectAll = isChecked;
             entrustPrintAdapter.notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public void onClick(View view) {
-        view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
     // 获取版本号
@@ -650,8 +630,8 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                     protected void onPostExecute(List<Map<String, Object>> result) {
                         doTaskListData.addAll(result);//这个是往后添加数据
                         doTaskListAdapter.notifyDataSetChanged();
-                        listView_dt.onFootLoadingComplete();//完成上拉刷新,就是底部加载完毕,这个方法要调用
-                        //移除footer,这个动作不能少
+                        listView_dt.onFootLoadingComplete();//完成上拉刷新,底部加载完毕
+                        //移除footer
                         listView_dt.removeFooterView(footer);
                         super.onPostExecute(result);
                     }
@@ -683,7 +663,7 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                         unTaskListData.clear();
                         unTaskListData.addAll(0, result);//注意是往前添加数据
                         unTaskListAdapter.notifyDataSetChanged();
-                        listView_ut.onRefreshComplete();//完成下拉刷新,这个方法要调用
+                        listView_ut.onRefreshComplete();//完成下拉刷新
                         super.onPostExecute(result);
                     }
                 }.execute();
@@ -720,8 +700,8 @@ public class HomeActivity extends BaseFragmentActivity implements BaseParameters
                     protected void onPostExecute(List<Map<String, Object>> result) {
                         unTaskListData.addAll(result);//这个是往后添加数据
                         unTaskListAdapter.notifyDataSetChanged();
-                        listView_ut.onFootLoadingComplete();//完成上拉刷新,就是底部加载完毕,这个方法要调用
-                        //移除footer,这个动作不能少
+                        listView_ut.onFootLoadingComplete();//完成上拉刷新,底部加载完毕
+                        //移除footer
                         listView_ut.removeFooterView(footer);
                         super.onPostExecute(result);
                     }

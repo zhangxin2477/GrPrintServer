@@ -63,7 +63,6 @@ public class UnTask_Dao {
                 printInfoModel.setPrintInfoPrinterID(jsonObject.getString("打印机id"));
                 printInfoModel.setPrintInfoHelpOutState(jsonObject.getString("HelpOutJob"));
                 printInfoModel.setPrintInfoHelpOutUser(jsonObject.getString("HelpOutUser"));
-                //printInfoModel.setPrintInfoRowNumber(jsonObject.getString("rownumber"));
                 unTaskList.add(printInfoModel);
             }
         } catch (JSONException e) {

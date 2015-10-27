@@ -40,20 +40,15 @@ public class InitActivity extends BaseFragmentActivity implements View.OnClickLi
     private ParameterApplication parameterApplication;
     private TextView tip;
     private ButtonFlat setup;
-    private View view_main;
     public boolean initLoadState = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        view_main = getLayoutInflater().from(this).inflate(R.layout.init_layout, null);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        //view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        //view_main.setOnClickListener(this);
         setContentView(R.layout.init_layout);
-        BaseHelp.enterLightsOutMode(getWindow());
 
         initSetup();
         tip = (TextView) findViewById(R.id.init_txt);
@@ -69,8 +64,6 @@ public class InitActivity extends BaseFragmentActivity implements View.OnClickLi
         }
 
         initLoading();
-//        new Thread(runnable).start();
-//        handler.postDelayed(runnable, 15000);
     }
 
     private void initSetup() {
@@ -114,7 +107,6 @@ public class InitActivity extends BaseFragmentActivity implements View.OnClickLi
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    //back = false;
                 }
             }
 
@@ -131,49 +123,6 @@ public class InitActivity extends BaseFragmentActivity implements View.OnClickLi
             }
         });
     }
-
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            boolean result = Service_Common.TestConnect(parameterApplication);
-            Message msg = new Message();
-            Bundle bundle = new Bundle();
-            bundle.putBoolean("result", result);
-            msg.setData(bundle);
-            handler.sendMessage(msg);
-        }
-    };
-
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Bundle bundle = msg.getData();
-            boolean result = bundle.getBoolean("result");
-            if (initLoadState) {
-                if (result) {
-                    Timer timer = new Timer();
-                    TimerTask task = new TimerTask() {
-                        //切换
-                        @Override
-                        public void run() {
-                            handler.removeCallbacks(runnable);
-                            initLoadState = false;
-                            Intent intent = new Intent();
-                            intent.setClass(InitActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            InitActivity.this.finish();
-                            //InitActivity.this.onDestroy();
-                        }
-                    };
-                    timer.schedule(task, 3000);
-                } else {
-                    tip.setText("服务器无法连接，请检查配置！");
-                    Toast.makeText(InitActivity.this, "服务器无法连接，请检查配置！", Toast.LENGTH_LONG).show();
-                    return;
-                }
-            }
-        }
-    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -210,7 +159,6 @@ public class InitActivity extends BaseFragmentActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         switch (v.getId()) {
             case R.id.init_setup:
                 openOptionsMenu();

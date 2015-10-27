@@ -19,11 +19,6 @@ import java.util.Map;
 public class Service_Carrier {
     private static Carrier_Dao carrier_dao;
 
-    public static String GetCarrierString(ParameterApplication parameterApplication,String barcode,String comefrom){
-        carrier_dao=new Carrier_Dao();
-        return carrier_dao.GetCarrierString(parameterApplication, barcode, comefrom);
-    }
-
     public static List<CarrierModel> CarrierToModel(String jsonCarrier){
         carrier_dao=new Carrier_Dao();
         return carrier_dao.CarrierToModel(jsonCarrier);
@@ -41,31 +36,5 @@ public class Service_Carrier {
             list.add(map);
         }
         return list;
-    }
-
-    public static String GetCarrierIDs(String jsonCarrier) {
-        String carrierIds = "";
-        List<CarrierModel> carrierModel = Service_Carrier.CarrierToModel(jsonCarrier);
-        for (int i = 0; i < carrierModel.size(); i++) {
-            carrierIds = carrierIds + carrierModel.get(i).getCarrierID() + ";";
-        }
-        return carrierIds;
-    }
-
-    public  static String GetTransferCarrierResult(ParameterApplication parameterApplication,String cardID,String carrierIDs){
-        String result="";
-        carrier_dao=new Carrier_Dao();
-        result = carrier_dao.GetTransferCarrierResult(parameterApplication,cardID,carrierIDs);
-        try {
-            result=new JSONObject(result).getString("result");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (result.contains("ok")){
-            result="载体移交成功！";
-        }else{
-            result="载体移交失败！";
-        }
-        return result;
     }
 }

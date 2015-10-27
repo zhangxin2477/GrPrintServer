@@ -14,15 +14,6 @@ import java.util.List;
 public class Service_User {
 
     public static User_Dao user_dao;
-    public static String getUserJson(ParameterApplication parameterApplication,String type){
-        user_dao=new User_Dao();
-        return user_dao.GetUserString(parameterApplication,type);
-    }
-
-    public static List<UserModel> UserToModelList(String jsonUser) {
-        user_dao=new User_Dao();
-        return user_dao.UserToModelList(jsonUser);
-    }
 
     public static List<UserModel> UserToModelList(JSONObject jsonUser) {
         user_dao=new User_Dao();

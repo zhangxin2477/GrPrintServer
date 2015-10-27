@@ -38,10 +38,8 @@ public class SetupActivity extends Activity implements View.OnClickListener, Bas
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //view_main.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        //view_main.setOnClickListener(this);
         setContentView(R.layout.initsetup_layout);
-        BaseHelp.enterLightsOutMode(getWindow());
+
         back = (ButtonFlat) findViewById(R.id.init_setup_back);
         back.textButton.setTextColor(Color.parseColor("#FFFFFF"));
         back.setOnClickListener(this);
