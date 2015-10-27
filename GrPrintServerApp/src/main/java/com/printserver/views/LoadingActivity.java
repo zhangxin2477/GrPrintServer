@@ -182,7 +182,7 @@ public class LoadingActivity extends Activity implements BaseParameters, View.On
                         unTaskStr = tmp + ";" + unTaskStr;
                     }
                 }
-                unTaskStr = parameterApplication.getUserInfo().getUserName() + ":" + unTaskStr.substring(0, unTaskStr.length() - 1);
+                unTaskStr = "ANDROID:" + parameterApplication.getUserInfo().getUserName() + ":" + parameterApplication.getUserInfo().getCardInfo() + ":" + unTaskStr.substring(0, unTaskStr.length() - 1);
                 final String finalUnTaskStr = unTaskStr;
                 new Thread(new Runnable() {
                     @Override

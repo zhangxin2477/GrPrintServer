@@ -8,4 +8,4 @@
         android:endColor="@android:color/transparent"
         android:startColor="@android:color/darker_gray" />
 
-</shape><!-- From: file:/C:/Users/Administrator/AndroidStudioProjects/GrPrintServer/MaterialDesign/res/drawable/shadow_down.xml --><!-- From: file:/C:/Users/Administrator/AndroidStudioProjects/GrPrintServer/MaterialDesign/build/intermediates/bundles/debug/res/drawable/shadow_down.xml -->
+</shape><!-- From: file:/home/developer/workspace/GrPrintServer/MaterialDesign/res/drawable/shadow_down.xml --><!-- From: file:/home/developer/workspace/GrPrintServer/MaterialDesign/build/intermediates/bundles/debug/res/drawable/shadow_down.xml -->

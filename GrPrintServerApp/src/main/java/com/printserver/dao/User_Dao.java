@@ -63,6 +63,10 @@ public class User_Dao {
                 userModel.setUserSec(jsonObject.getString("secgrade"));
                 userModel.setMachineSec(jsonObject.getString("machinesec"));
                 userModel.setUserIsLock(jsonObject.getString("islock"));
+                userModel.setCardInfo(jsonObject.getString("cardID"));
+                userModel.setCardType(jsonObject.getString("type"));
+                userModel.setCardState(jsonObject.getString("state"));
+                userModel.setCardUseAuthor(jsonObject.getString("useScope"));
                 list.add(userModel);
             }
         } catch (JSONException e) {
@@ -93,6 +97,10 @@ public class User_Dao {
                 userModel.setUserSec(jsonObject.getString("secgrade"));
                 userModel.setMachineSec(jsonObject.getString("machinesec"));
                 userModel.setUserIsLock(jsonObject.getString("islock"));
+                userModel.setCardInfo(jsonObject.getString("cardID"));
+                userModel.setCardType(jsonObject.getString("type"));
+                userModel.setCardState(jsonObject.getString("state"));
+                userModel.setCardUseAuthor(jsonObject.getString("useScope"));
                 list.add(userModel);
             }
         } catch (JSONException e) {

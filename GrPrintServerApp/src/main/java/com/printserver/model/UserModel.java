@@ -17,6 +17,11 @@ public class UserModel {
     private String PosiName;
     private String UserIsLock;
 
+    private String CardState;
+    private String CardType;
+    private String CardUseAuthor;
+    private String CardInfo;
+
     public String getUserID() {
         return UserID;
     }
@@ -111,5 +116,37 @@ public class UserModel {
 
     public void setUserIsLock(String userIsLock) {
         UserIsLock = userIsLock;
+    }
+
+    public String getCardState() {
+        return CardState;
+    }
+
+    public void setCardState(String cardState) {
+        CardState = cardState;
+    }
+
+    public String getCardType() {
+        return CardType;
+    }
+
+    public void setCardType(String cardType) {
+        CardType = cardType;
+    }
+
+    public String getCardUseAuthor() {
+        return CardUseAuthor;
+    }
+
+    public void setCardUseAuthor(String cardUseAuthor) {
+        CardUseAuthor = cardUseAuthor;
+    }
+
+    public String getCardInfo() {
+        return CardInfo;
+    }
+
+    public void setCardInfo(String cardInfo) {
+        CardInfo = cardInfo;
     }
 }
