@@ -1,8 +1,10 @@
 package com.printserver.base;
 
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.net.*;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.view.View;
 
@@ -31,9 +33,9 @@ import java.util.Map;
  */
 public class BaseHelp {
 
-    public static void ShowDialog(final Context v,String title,int type){
-        final Dialog dialog=new Dialog(v,"提示",title,type,"确定");
-        if (type==0){
+    public static void ShowDialog(final Context v, String title, int type) {
+        final Dialog dialog = new Dialog(v, "提示", title, type, "确定");
+        if (type == 0) {
             dialog.setOnAcceptButtonClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -79,7 +81,7 @@ public class BaseHelp {
     }
 
     public static boolean CheckNetworkConnect(Context context) {
-        boolean result=false;
+        boolean result = false;
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mobileInfo = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         NetworkInfo wifiInfo = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -89,10 +91,25 @@ public class BaseHelp {
                 + "\n" + "wifi:" + wifiInfo.isConnected()
                 + "\n" + "eth:" + ethInfo.isConnected()
                 + "\n" + "active:" + activeInfo.getTypeName());
-        if (wifiInfo.isConnected()||ethInfo.isConnected()){
+        if (ethInfo.isConnected()) {
             result = true;
         }
         return result;
+    }
+
+    public static void CloseWifiBluetooth(Context context) {
+        try {
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            if (wifiManager.isWifiEnabled()) {
+                wifiManager.setWifiEnabled(false);
+            }
+            if (bluetoothAdapter.isEnabled()) {
+                bluetoothAdapter.disable();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static String GetAllData(String ip, String port, String vdir, String methodName, Map<String, String> parameters) {
@@ -133,14 +150,14 @@ public class BaseHelp {
     *ifconfig eth0
     * net.eth0.dns1
      */
-    private static String runLinux(String key){
-        String value="";
+    private static String RunLinux(String key) {
+        String value = "";
         try {
 
             Process localProcess = Runtime.getRuntime().exec(key);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(localProcess.getInputStream()));
-            String tmp=null;
-            while((tmp=bufferedReader.readLine()) != null) {
+            String tmp = null;
+            while ((tmp = bufferedReader.readLine()) != null) {
                 Log.v("value", tmp);
                 value += tmp;
             }
@@ -154,33 +171,33 @@ public class BaseHelp {
 
     }
 
-    private static JSONObject getGateway(){
-        JSONObject gateway=new JSONObject();
+    private static JSONObject GetGateway() {
+        JSONObject gateway = new JSONObject();
         try {
-            String value = runLinux("ip route show");
+            String value = RunLinux("ip route show");
             if (value.contains("wlan0")) {
                 String wlan0 = value.substring(0, value.indexOf("wlan0") + 5);
                 gateway.put("wlan0", wlan0.substring(wlan0.lastIndexOf("default via") + 12, wlan0.indexOf("dev wlan0")).replace(" ", ""));
             }
             if ((value.contains("eth0"))) {
-                String eth0=value.substring(0,value.indexOf("eth0")+5);
-                gateway.put("eth0",eth0.substring(eth0.lastIndexOf("default via") + 12, eth0.indexOf("dev eth0")).replace(" ", ""));
+                String eth0 = value.substring(0, value.indexOf("eth0") + 5);
+                gateway.put("eth0", eth0.substring(eth0.lastIndexOf("default via") + 12, eth0.indexOf("dev eth0")).replace(" ", ""));
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return gateway;
     }
 
-    public static JSONObject getWirelessnet(){
-        JSONObject jsonObject=new JSONObject();
+    public static JSONObject GetWirelessnet() {
+        JSONObject jsonObject = new JSONObject();
         try {
-            String tmp = runLinux("getprop ro.build.characteristics");
-            String value = runLinux("ifconfig wlan0");
+            String tmp = RunLinux("getprop ro.build.characteristics");
+            String value = RunLinux("ifconfig wlan0");
             if (tmp.contains("phone")) {
-                jsonObject.put("IPAddress", runLinux("getprop dhcp.wlan0.ipaddress"));
-                jsonObject.put("Mask", runLinux("getprop dhcp.wlan0.mask"));
-                jsonObject.put("Gateway", runLinux("getprop dhcp.wlan0.gateway"));
+                jsonObject.put("IPAddress", RunLinux("getprop dhcp.wlan0.ipaddress"));
+                jsonObject.put("Mask", RunLinux("getprop dhcp.wlan0.mask"));
+                jsonObject.put("Gateway", RunLinux("getprop dhcp.wlan0.gateway"));
             } else {//tablet
                 if (value.contains("HWaddr")) {
                     jsonObject.put("HWAddress", value.substring(value.indexOf("HWaddr") + 7, value.indexOf("HWaddr") + 26).replace(" ", ""));
@@ -190,37 +207,37 @@ public class BaseHelp {
                     jsonObject.put("Bcast", value.substring(value.indexOf("Bcast") + 6, value.indexOf("Mask") - 2).replace(" ", ""));
                     jsonObject.put("Mask", value.substring(value.indexOf("Mask") + 5, value.indexOf("Mask") + 21).replace(" ", ""));
                 }
-                jsonObject.put("Gateway", getGateway().get("wlan0"));
+                jsonObject.put("Gateway", GetGateway().get("wlan0"));
             }
-            jsonObject.put("Dns", runLinux("getprop dhcp.wlan0.dns1").replace(" ", ""));
-        }catch (Exception ex){
+            jsonObject.put("Dns", RunLinux("getprop dhcp.wlan0.dns1").replace(" ", ""));
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return jsonObject;
     }
 
-    public static JSONObject getEthernet(){
-        JSONObject jsonObject=new JSONObject();
+    public static JSONObject GetEthernet() {
+        JSONObject jsonObject = new JSONObject();
         try {
-            String value = runLinux("ifconfig eth0");
+            String value = RunLinux("ifconfig eth0");
             if (value.contains("HWaddr")) {
                 jsonObject.put("HWAddress", value.substring(value.indexOf("HWaddr") + 7, value.indexOf("HWaddr") + 26).replace(" ", ""));
             }
             if (value.contains("inet addr")) {
-                jsonObject.put("IPAddress",value.substring(value.indexOf("inet addr") + 10, value.indexOf("Bcast") - 2).replace(" ", ""));
+                jsonObject.put("IPAddress", value.substring(value.indexOf("inet addr") + 10, value.indexOf("Bcast") - 2).replace(" ", ""));
                 jsonObject.put("Bcast", value.substring(value.indexOf("Bcast") + 6, value.indexOf("Mask") - 2).replace(" ", ""));
                 jsonObject.put("Mask", value.substring(value.indexOf("Mask") + 5, value.indexOf("Mask") + 21).replace(" ", ""));
             }
-            jsonObject.put("Gateway",getGateway().get("eth0"));
-            jsonObject.put("Dns", runLinux("getprop net.eth0.dns1").replace(" ", ""));
-        }catch (Exception ex){
+            jsonObject.put("Gateway", GetGateway().get("eth0"));
+            jsonObject.put("Dns", RunLinux("getprop net.eth0.dns1").replace(" ", ""));
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return jsonObject;
     }
 
     public static String GetHtml(String ip, String port, String vdir) {
-        String urlString="http://" + ip + ":" + port +"/"+ vdir +"/PrintCSUpdate/Android/androidupdate.html";
+        String urlString = "http://" + ip + ":" + port + "/" + vdir + "/PrintCSUpdate/Android/androidupdate.html";
         String html = null;
         try {
             java.net.URL url = new java.net.URL(urlString); //根据 String 表示形式创建 URL 对象。
@@ -230,8 +247,8 @@ public class BaseHelp {
 
             String temp;
             while ((temp = br.readLine()) != null) { //按行读取输出流
-                if(!temp.trim().equals("")){
-                    html+=temp;
+                if (!temp.trim().equals("")) {
+                    html += temp;
                 }
             }
             br.close(); //关闭
@@ -239,12 +256,12 @@ public class BaseHelp {
 
         } catch (Exception e) {
             e.printStackTrace();
-            html=null;
+            html = null;
         }
         return html; //返回此序列中数据的字符串表示形式。
     }
 
-    public static String GetDownUrl(String ip, String port, String vdir){
-        return "http://" + ip + ":" + port +"/"+ vdir +"/PrintCSUpdate/Android/GrPrintServer.apk";
+    public static String GetDownUrl(String ip, String port, String vdir) {
+        return "http://" + ip + ":" + port + "/" + vdir + "/PrintCSUpdate/Android/GrPrintServer.apk";
     }
 }

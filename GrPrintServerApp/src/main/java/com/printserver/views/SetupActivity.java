@@ -8,9 +8,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFlat;
@@ -69,9 +67,9 @@ public class SetupActivity extends Activity implements View.OnClickListener, Bas
     private void initSetup() {
         BaseContext baseContext = new BaseContext(this);
         try {
-            JSONObject jsonObject = BaseHelp.getEthernet();
+            JSONObject jsonObject = BaseHelp.GetEthernet();
             if (jsonObject.length() <= 0) {
-                jsonObject = BaseHelp.getWirelessnet();
+                jsonObject = BaseHelp.GetWirelessnet();
             }
             localip.setText(jsonObject.get("IPAddress").toString());
             mask.setText(jsonObject.get("Mask").toString());
@@ -120,6 +118,7 @@ public class SetupActivity extends Activity implements View.OnClickListener, Bas
                     return;
                 }
                 if (updateSetup()) {
+                    ((ParameterApplication)getApplication()).updata();
                     Toast.makeText(this, "保存成功！", Toast.LENGTH_LONG).show();
                     SetupActivity.this.setResult(RESULT_OK, null);
                     SetupActivity.this.finish();

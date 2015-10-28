@@ -25,7 +25,6 @@ import java.util.List;
 public class SetupFragment extends BaseFragment implements OnClickListener {
 
     private HomeActivity homeActivity;
-    private ParameterApplication parameterApplication;
     private EditText localip,mask,gateway,dns,webip,webport, webvrid, listenip, listenport;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +44,7 @@ public class SetupFragment extends BaseFragment implements OnClickListener {
                     return;
                 }
                 if(updateSetup()) {
+                    ((ParameterApplication)homeActivity.getApplication()).updata();
                     Toast.makeText(homeActivity, "保存成功！", Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(homeActivity, "保存失败！", Toast.LENGTH_LONG).show();
@@ -82,9 +82,9 @@ public class SetupFragment extends BaseFragment implements OnClickListener {
     private void initSetup(){
         BaseContext baseContext=new BaseContext(homeActivity);
         try {
-            JSONObject jsonObject = BaseHelp.getEthernet();
+            JSONObject jsonObject = BaseHelp.GetEthernet();
             if (jsonObject.length() <= 0) {
-                jsonObject = BaseHelp.getWirelessnet();
+                jsonObject = BaseHelp.GetWirelessnet();
             }
             localip.setText(jsonObject.get("IPAddress").toString());
             mask.setText(jsonObject.get("Mask").toString());

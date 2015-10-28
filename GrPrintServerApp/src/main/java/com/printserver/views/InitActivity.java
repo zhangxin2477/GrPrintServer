@@ -1,13 +1,8 @@
 package com.printserver.views;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,15 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFlat;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.printserver.base.BaseContext;
 import com.printserver.base.BaseFragmentActivity;
 import com.printserver.base.BaseHelp;
 import com.printserver.base.BaseParameters;
 import com.printserver.dao.GPSClient;
-import com.printserver.service.Service_Common;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,16 +42,17 @@ public class InitActivity extends BaseFragmentActivity implements View.OnClickLi
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.init_layout);
 
+        BaseHelp.CloseWifiBluetooth(this);
+        parameterApplication = (ParameterApplication) getApplication();
         initSetup();
         tip = (TextView) findViewById(R.id.init_txt);
         setup = (ButtonFlat) findViewById(R.id.init_setup);
         setup.textButton.setTextColor(Color.parseColor("#FFFFFF"));
-        parameterApplication = (ParameterApplication) getApplication();
 
         setup.setOnClickListener(this);
         if (!BaseHelp.CheckNetworkConnect(this)) {
-            tip.setText("您未连接网络，请检查设备！");
-            Toast.makeText(this, "您未连接网络，请检查设备！", Toast.LENGTH_LONG).show();
+            tip.setText("您未连接有线网络，请检查设备！");
+            Toast.makeText(this, "您未连接有线网络，请检查设备！", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -72,14 +65,10 @@ public class InitActivity extends BaseFragmentActivity implements View.OnClickLi
             baseContext.WriteData("webip", "192.168.1.100");
             baseContext.WriteData("webport", "80");
             baseContext.WriteData("webvrid", "print");
-            baseContext.WriteData("listenip","192.168.1.100");
-            baseContext.WriteData("listenport","50000");
-            parameterApplication.setConnectIP("192.168.1.100");
-            parameterApplication.setConnectPort("80");
-            parameterApplication.setConnectVrid("print");
-            parameterApplication.setListenIP("192.168.1.100");
-            parameterApplication.setListenPort("80");
+            baseContext.WriteData("listenip", "192.168.1.100");
+            baseContext.WriteData("listenport", "50000");
         }
+        parameterApplication.updata();
     }
 
     private void initLoading() {

@@ -20,13 +20,17 @@ public class ParameterApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        updata();
+        setUserInfo(UserInfo);
+    }
+
+    public void updata(){
         BaseContext baseContext = new BaseContext(this);
         setConnectIP(baseContext.ReadDataValue("webip"));//初始化全局变量
         setConnectPort(baseContext.ReadDataValue("webport"));
         setConnectVrid(baseContext.ReadDataValue("webvrid"));
         setListenIP(baseContext.ReadDataValue("listenip"));
         setListenPort(baseContext.ReadDataValue("listenport"));
-        setUserInfo(UserInfo);
     }
 
     public void setConnectIP(String value) {
