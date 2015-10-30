@@ -1,6 +1,7 @@
 package com.printserver.views;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -44,12 +45,16 @@ public class SetupActivity extends Activity implements View.OnClickListener, Bas
 
         localip = (EditText) findViewById(R.id.ip_txt);
         localip.setKeyListener(null);
+        localip.setOnClickListener(this);
         mask = (EditText) findViewById(R.id.mask_txt);
         mask.setKeyListener(null);
+        mask.setOnClickListener(this);
         gateway = (EditText) findViewById(R.id.gateway_txt);
         gateway.setKeyListener(null);
+        gateway.setOnClickListener(this);
         dns = (EditText) findViewById(R.id.dns_txt);
         dns.setKeyListener(null);
+        dns.setOnClickListener(this);
         webip = (EditText) findViewById(R.id.webip_txt);
         webport = (EditText) findViewById(R.id.webport_txt);
         webvrid = (EditText) findViewById(R.id.vd_txt);
@@ -135,6 +140,34 @@ public class SetupActivity extends Activity implements View.OnClickListener, Bas
                 bundle.putString("LoadingType", INITSETUP);
                 intentLoading.putExtras(bundle);
                 startActivityForResult(intentLoading, 0);
+                break;
+            case  R.id.ip_txt:
+                Intent intent1 = new Intent();
+                ComponentName componentName1 = new ComponentName("com.android.settings", "com.android.settings.Settings");
+                intent1.setComponent(componentName1);
+                intent1.setAction("android.intent.action.VIEW");
+                startActivity(intent1);
+                break;
+            case R.id.mask_txt:
+                Intent intent2 = new Intent();
+                ComponentName componentName2 = new ComponentName("com.android.settings", "com.android.settings.Settings");
+                intent2.setComponent(componentName2);
+                intent2.setAction("android.intent.action.VIEW");
+                startActivity(intent2);
+                break;
+            case R.id.dns_txt:
+                Intent intent3 = new Intent();
+                ComponentName componentName3 = new ComponentName("com.android.settings", "com.android.settings.Settings");
+                intent3.setComponent(componentName3);
+                intent3.setAction("android.intent.action.VIEW");
+                startActivity(intent3);
+                break;
+            case R.id.gateway_txt:
+                Intent intent4 = new Intent();
+                ComponentName componentName4 = new ComponentName("com.android.settings", "com.android.settings.Settings");
+                intent4.setComponent(componentName4);
+                intent4.setAction("android.intent.action.VIEW");
+                startActivity(intent4);
                 break;
         }
     }
